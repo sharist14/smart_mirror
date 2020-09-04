@@ -38,7 +38,7 @@ class Router
                 }
 
                 $controller = new $controller_name();
-                $controller->$action_name($parameters);
+                $controller->$action_name(compact('parameters'));
 
                 break;
             }
