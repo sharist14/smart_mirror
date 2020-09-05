@@ -3,20 +3,15 @@
 class siteController
 {
     public function actionMain(){
-        echo "class - " . __CLASS__;
+//        echo "class - " . __CLASS__;
         $body = get_template('site', 'index', 'body');
+        $row = get_template('site', 'index', 'row');
 
-        echo "<pre>";
-            print_r($body);
-        echo "</pre>";
-        
-        
+
+
     }
 
     public function actionTest($parameters){
-        echo "<pre>";
-            print_r($parameters);
-        echo "</pre>";
 
 
     }
