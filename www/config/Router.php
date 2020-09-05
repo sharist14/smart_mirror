@@ -37,10 +37,16 @@ class Router
                     require_once($controller_file);
                 }
 
-                $controller = new $controller_name();
-                $controller->$action_name(compact('parameters'));
+                // Проверяем есть ли такой класс и метод
+                if ( class_exists($controller_name) && method_exists($controller_name, $action_name) ){
 
-                break;
+                    $controller = new $controller_name();
+                    $controller->$action_name(compact('parameters'));
+
+                    break;
+                } else{
+                    header('Location: http://smart-mirror/');
+                }
             }
         }
     }

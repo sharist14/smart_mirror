@@ -48,10 +48,33 @@ function pre($data){
 }
 
 /**
- * Setter для вставки данных
+ * Вставка данных в шаблон
  */
-function set($template, $value){
-    pre($template);
-    pre($value);
+function set($template, $area, $value){
 
+    // Ищем область по шаблону
+    if(preg_match("~{".$area."}~", $template)){
+        $replace = preg_replace("~{".$area."}~", $value, $template);
+
+        return $replace;
+
+    } else{
+        return $template;
+    }
+}
+
+/**
+ * Множественная вставка данных в шаблон
+ */
+function setm($template, $area, $value){
+
+    // Ищем область по шаблону
+    if(preg_match("~{".$area."}~", $template)){
+        $replace = preg_replace("~{".$area."}~", $value.'{'.$area.'}', $template);
+
+        return $replace;
+
+    } else{
+        return $template;
+    }
 }
