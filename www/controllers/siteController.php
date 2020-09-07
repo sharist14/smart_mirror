@@ -1,4 +1,5 @@
 <?php
+require_once(WWW.'/api/openweathermap.php');
 
 
 class siteController
@@ -8,8 +9,10 @@ class siteController
         $body = get_template('site', 'index', 'body');
         $row = get_template('site', 'index', 'row');
 
-        $body = set($body, 'order_id', 12456);
-        $body = setm($body, 'order_id', 12456);
+        // Погода
+        $weather = new openweathermap();
+        $data_temp = $weather->getCurrentWeather();
+        $body = set($body, 'weather', $data_temp);
 
         // Отправляем на рендер
         viewController::display($body);
