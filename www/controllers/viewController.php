@@ -8,7 +8,7 @@ class viewController
     public static function display($data){
 
         // Получаем шаблон
-        $page = get_template('layers', 'template_page', 'full');
+        $page = get_template('layers', 'main_page', 'full');
 
         // Подключаем стили
         $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/style.css">');
