@@ -1,7 +1,22 @@
-/*body{*/
-    /*background-color: #000000;*/
-    /*color: white;*/
-/*}*/
+.ta-c{
+    text-align: center;
+}
+
+.ta-l{
+    text-align: left;
+}
+
+.ta-r{
+    text-align: right;
+}
+
+.f-l{
+    float: left;
+}
+
+.f-r{
+    float: right;
+}
 
 .container{
     background-color: #000000;
@@ -11,6 +26,32 @@
     padding: 15px;
 }
 
-.weather{
-
+.line{
+    border-bottom: 1px solid grey;
 }
+
+
+/*---------- WEATHER BLOCK ----------*/
+.weather{
+    width: 350px;
+    height: 800px;
+    border: 1px dotted white;
+    padding: 5px;
+}
+
+.main .title{
+    margin-top: 27px;
+}
+
+.main .left_block{
+    line-height: 30px;
+}
+
+.main .right_block{
+    line-height: 22px;
+}
+
+
+
+
+/*---------- END WEATHER BLOCK ----------*/

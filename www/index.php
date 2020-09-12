@@ -6,7 +6,7 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 require_once 'config/ways.php';
 require_once 'config/Router.php';
 include_once 'config/utils.php';
-require_once ('controllers/viewController.php');
+require_once('views/viewController.php');
 
 
 /* Роутер */

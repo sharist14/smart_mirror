@@ -2,31 +2,32 @@
 
 class weatherObj
 {
-    public $coord;
-    public $w_id;
-    public $w_main;
-    public $w_desc;
-    public $w_icon;
-    public $base;
-    public $temp;
-    public $temp_like;
+    public $city_id;    // id города
+    public $city_name;  // название города
+    public $coord;      // координаты
+    public $w_id;       // id текущей погоды
+    public $w_main;     // группа погодных условий
+    public $w_desc;     // описание текущей погоды
+    public $w_icon;     // id иконки
+    public $base;       // на основе чего погода (станция)
+    public $temp;       // температура
+    public $temp_like;  // ощущается как
     public $temp_min;
     public $temp_max;
-    public $pressure;
-    public $humidity;
-    public $visibility;
-    public $wind_speed;
-    public $wind_deg;
-    public $wind_gust;
-    public $clouds_all;
-    public $update_date;
-    public $sunrise;
-    public $sunset;
-    public $country;
-    public $timezone;
-    public $city_id;
-    public $city_name;
-    public $code_query;
+    public $pressure;   // давление в гПа
+    public $humidity;   // влажность в %
+    public $visibility; // видимость в метрах
+    public $wind_speed; // скорость ветра
+    public $wind_deg;   // направление ветра, градусы (метеорологические)
+    public $wind_gust;  // порыв ветра (НЕТ ДАННЫХ)
+    public $clouds_all; // Облачность в %
+    public $update_date;// Время расчета данных, unix
+    public $sunrise;    // Рассвет
+    public $sunset;     // Закат
+    public $country;    // Страна
+    public $timezone;   // Временная зона (Сдвиг в секундах от UTC)
+
+    public $code_query; // Служебный код
 
 
     public function __construct($data){
@@ -44,7 +45,7 @@ class weatherObj
         $this->humidity = $data['main']['humidity'];
         $this->visibility = $data['visibility'];
         $this->wind_speed = $data['wind']['speed'];
-        $this->wind_deg = $data['wind']['deg'];
+        $this->wind_deg = wind_deg($data['wind']['deg']);
         $this->wind_gust = $data['wind']['gust'];
         $this->clouds_all = $data['clouds']['all'];
         $this->update_date = df($data['dt'], 'f');

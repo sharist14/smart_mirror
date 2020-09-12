@@ -12,6 +12,7 @@ class viewController
 
         // Подключаем стили
         $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/style.css">');
+        $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/weather_icons.css">');
 
         // Добавляем контент в body
         $page = set($page, 'content', $data);

@@ -110,3 +110,42 @@ function df($date, $format = 's'){    //"s" - short(12.05), "m" - middle(12.05.2
 
     return date($format, $date);
 }
+
+/**
+ * Направление ветра
+ */
+function wind_deg($deg){
+
+    switch($deg) {
+        case ($deg <= 22):
+            $direct = 'cевер';
+            break;
+        case ($deg <= 67):
+            $direct = 'cеверо-восток';
+            break;
+        case ($deg <= 112):
+            $direct = 'восток';
+            break;
+        case ($deg <= 157):
+            $direct = 'юго-восток';
+            break;
+        case ($deg <= 202):
+            $direct = 'юг';
+            break;
+        case ($deg <= 247):
+            $direct = 'юго-запад';
+            break;
+        case ($deg <= 292):
+            $direct = 'запад';
+            break;
+        case ($deg <= 337):
+            $direct = 'северо-запад';
+            break;
+        case ($deg <= 360):
+            $direct = 'север';
+            break;
+    }
+
+    return $direct;
+
+}
