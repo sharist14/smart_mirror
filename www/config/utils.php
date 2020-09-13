@@ -106,6 +106,9 @@ function df($date, $format = 's'){    //"s" - short(12.05), "m" - middle(12.05.2
         case "f":
             $format = "d.m.Y H:i:s";
             break;
+        case "t":
+            $format = "H:i:s";
+            break;
     }
 
     return date($format, $date);
@@ -148,4 +151,10 @@ function wind_deg($deg){
 
     return $direct;
 
+}
+
+// Первая заглавная буква (для utf-8)
+function ucfirst_utf8($str)
+{
+    return mb_substr(mb_strtoupper($str, 'utf-8'), 0, 1, 'utf-8') . mb_substr($str, 1, mb_strlen($str)-1, 'utf-8');
 }

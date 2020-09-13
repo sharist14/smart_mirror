@@ -33,23 +33,44 @@
 
 /*---------- WEATHER BLOCK ----------*/
 .weather{
-    width: 350px;
+    width: 416px;
     height: 800px;
     border: 1px dotted white;
     padding: 5px;
 }
 
-.main .title{
-    margin-top: 27px;
+/*.main .title{*/
+    /*margin-top: 27px;*/
+/*}*/
+.main{
+    text-align: center;
+}
+
+.main .left_block,
+.main .right_block{
+    display:inline-block;
+    width: 200px;
 }
 
 .main .left_block{
-    line-height: 30px;
+    text-align: left;
+    line-height: 33px;
 }
 
 .main .right_block{
-    line-height: 22px;
+    text-align: right;
+    line-height: 25px;
 }
+
+.wind h3{
+    text-align: center;
+}
+
+.wind .left_block{
+    line-height: 25px;;
+}
+
+
 
 
 

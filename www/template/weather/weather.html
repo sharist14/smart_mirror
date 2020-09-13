@@ -1,46 +1,48 @@
 #[body]#
 <div class="weather">
     <div class="main">
-        <div class="ta-c">{city_name}</div>
-        <div class="f-l left_block">
-            <div class="title">{temp}</div>
-            {w_desc}
+        <h3>{city_name}</h3>
+        <div class="left_block">
+            {temp}
+            <br>{w_desc}
             <br>Ощущается {temp_like}
             <br>Давление {pressure} гПа
         </div>
-        <div class="right_block ta-r">
-
-            <!--css иконка-->
-            <!--<div class="body_icon icon rainy">-->
-                <!--<div class="cloud"></div>-->
-                <!--<div class="rain"></div>-->
-            <!--</div>-->
-            <!--иконка с сайта-->
+        <div class="right_block">
             {weather_icon_img}
-
             <br> Видимость {visibility} м.
-            <br> Влажность {humidity}%
+            <br> <img src="{humidity_icon}" alt="qweqwe">Влажность {humidity}%
             <br> Облачность {clouds_all}%
         </div>
     </div>
 
-    <div class="comfort f-l ta-l">
-        <br><br><br>
-        <div class="ta-c"><h3>Ветер</h3></div>
-        <div class="f-l left_block">
+    <div class="wind">
+        <h3>Ветер</h3>
+        <div class="left_block">
             Скорость - {wind_speed} км/ч
             <br>Направление ветра - {wind_deg}
+            <br> *динамическая стрелка направления ветра*
         </div>
     </div>
 
-    <div class="comfort f-l ">
-        <div class="ta-c"><h3>Разное</h3></div>
-        <div class="f-l left_block">
+    <div class="sun">
+        <h3>Солнце</h3>
+        <div class="left_block">
             Рассвет - {sunrise}
             <br>Закат - {sunset}
-            <br><br> Данные обновлены {update_date}
+
         </div>
     </div>
+
+    <div class="moon">
+        <h3>Луна</h3>
+        <div class="left_block">
+
+        </div>
+    </div>
+
+
+    <br><br> Последнее обновление {update_date}
 
 </div>
 #[!body]#

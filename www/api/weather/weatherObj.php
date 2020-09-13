@@ -48,7 +48,7 @@ class weatherObj
         $this->wind_deg = wind_deg($data['wind']['deg']);
         $this->wind_gust = $data['wind']['gust'];
         $this->clouds_all = $data['clouds']['all'];
-        $this->update_date = df($data['dt'], 'f');
+        $this->update_date = df($data['dt'], 't');
         $this->sunrise = df($data['sys']['sunrise'],'f');
         $this->sunset = df($data['sys']['sunset'], 'f');
         $this->country = $data['sys']['country'];

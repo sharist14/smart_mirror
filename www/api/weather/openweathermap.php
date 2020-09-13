@@ -51,10 +51,21 @@ class openweathermap
 
     public function renderData($template){
 
-        // main block //
+        pre($this->wObj);
+        
         foreach($this->wObj as $key => $value){
+            if($key == 'w_desc'){
+                $template = set($template, $key, ucfirst_utf8($value) );
+            }
             $template = set($template, $key, $value );
         }
+
+        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'.png">';
+//        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'@2x.png">';
+        $template = set($template, 'weather_icon_img', $icon);
+
+        $template = set($template, 'humidity_icon', '/sources/img/thermometer.png');
+
 
         return $template;
     }
