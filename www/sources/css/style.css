@@ -37,6 +37,9 @@
     height: 800px;
     border: 1px dotted white;
     padding: 5px;
+    font-family: 'Lato', sans-serif;
+    /*font-family: 'Work Sans', sans-serif;*/
+    /*font-family: 'Roboto', sans-serif;*/
 }
 
 /*.main .title{*/
@@ -49,7 +52,7 @@
 .main .left_block,
 .main .right_block{
     display:inline-block;
-    width: 200px;
+    width: 190px;
 }
 
 .main .left_block{

@@ -51,8 +51,9 @@ class openweathermap
 
     public function renderData($template){
 
-        pre($this->wObj);
-        
+//        pre($this->wObj);
+
+        // Вставляем из класса все данные полученные из api
         foreach($this->wObj as $key => $value){
             if($key == 'w_desc'){
                 $template = set($template, $key, ucfirst_utf8($value) );
@@ -64,9 +65,22 @@ class openweathermap
 //        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'@2x.png">';
         $template = set($template, 'weather_icon_img', $icon);
 
-        $template = set($template, 'humidity_icon', '/sources/img/thermometer.png');
+//        $template = set($template, 'humidity_icon', '/sources/img/thermometer.png');
 
 
         return $template;
+    }
+
+    public function getParams(){
+
+        $params['style'][] = '<link rel="stylesheet" href="/sources/css/weather_animated_icons.css">';
+        $params['style'][] = '<link rel="stylesheet" href="/sources/css/weather-icons.css">';
+        $params['style'][] = '<link rel="stylesheet" href="/sources/css/weather-icons-wind.css">';
+        $params['style'][] = '<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">';
+        $params['style'][] = '<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">';
+        $params['style'][] = '<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">';
+        $params['style'][] = '<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">';
+
+        return $params;
     }
 }
