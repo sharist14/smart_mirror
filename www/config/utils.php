@@ -117,7 +117,7 @@ function df($date, $format = 's'){    //"s" - short(12.05), "m" - middle(12.05.2
 /**
  * Направление ветра
  */
-function wind_deg($deg){
+function wind_arrow($deg){
 
     switch($deg) {
         case ($deg <= 22):

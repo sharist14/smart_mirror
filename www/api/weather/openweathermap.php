@@ -4,20 +4,46 @@
 class openweathermap
 {
 
-    public $url_curr_weather = 'api.openweathermap.org/data/2.5/weather?';
+    public $url_curr_weather = 'api.openweathermap.org/data/2.5/';
     public $city_name = 'Saint Petersburg,RU';
     public $city_id = '498817';   //Saint Petersburg
+    public $city_coord = 'lat=59.89&lon=30.26';
     public $wObj;
+    public $waObj;
 
 
     public function getCurrentWeather(){
 
         $body = get_template('weather', 'weather', 'body');
 
-        $url = $this->url_curr_weather.'id='.$this->city_id.'&APPID='.WEATHER_CURRENT_API.'&lang=ru&units=metric';
+        /* Current weather */
+        $operation = 'weather';
+        $url = $this->url_curr_weather.$operation.'?id='.$this->city_id.'&APPID='.WEATHER_CURRENT_API.'&lang=ru&units=metric';
+        $data_curr = $this->send_query($url); // Запрашиваем погоду
+        
+        // Если данные корректные, добавляем их в объект
+        if( !$data_curr['message']){
+            require_once(WWW.'/api/weather/weatherObj.php');
+            $this->wObj = new weatherObj($data_curr);
+        } else{
+            die('Не удалось получить корректные данные о погоде по api');
+        }
+        
 
-        // Запрашиваем погоду
-        $this->send_query($url);
+        /* One call API */
+        $operation = 'onecall';
+        $url = $this->url_curr_weather.$operation.'?'.$this->city_coord.'&appid='.WEATHER_CURRENT_API;
+        $data_all = $this->send_query($url); // Запрашиваем погоду
+
+        // Если данные корректные, добавляем их в объект
+        if( !$data_all['message']){
+            require_once(WWW.'/api/weather/weatherAllObj.php');
+            $this->waObj = new weatherAllObj($data_all);
+        } else{
+            die('Не удалось получить корректные данные о погоде по api');
+        }
+
+        
 
 
         // Отправляем на рендер
@@ -28,7 +54,7 @@ class openweathermap
 
     }
 
-    public function send_query($url){        
+    public function send_query($url){
         $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Устанавливаем параметр, чтобы curl возвращал данные, вместо того, чтобы выводить их в браузер.
@@ -39,33 +65,33 @@ class openweathermap
 
         $data = json_decode($data,true);
 
-        // Если данные корректные, добавляем их в объект
-        if($data['cod'] == 200){
-            require_once(WWW.'/api/weather/weatherObj.php');
-            $this->wObj = new weatherObj($data);
-            return true;
-        } else{
-            die('Не удалось получить корректные данные о погоде по api');
-        }
+        return $data;
     }
+
 
     public function renderData($template){
 
-//        pre($this->wObj);
-
         // Вставляем из класса все данные полученные из api
         foreach($this->wObj as $key => $value){
-            if($key == 'w_desc'){
-                $template = set($template, $key, ucfirst_utf8($value) );
-            }
             $template = set($template, $key, $value );
         }
 
-        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'.png">';
-//        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'@2x.png">';
+
+
+
+        // Определяем время суток
+        $cur_date = date('H:i:s', time());
+        if( ($cur_date > $this->wObj->sunrise) && ($cur_date < $this->wObj->sunset)){
+//            pre('Сейчас светло');
+        } else{
+//            pre('Сейчас темно');
+        }
+
+
+        // Главная иконка
+        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'@2x.png">';
         $template = set($template, 'weather_icon_img', $icon);
 
-//        $template = set($template, 'humidity_icon', '/sources/img/thermometer.png');
 
 
         return $template;

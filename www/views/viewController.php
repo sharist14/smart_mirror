@@ -14,6 +14,7 @@ class viewController extends viewTemplate
         // Подключаем общие стили стили
         $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/style.css">');
         $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/bootstrap.min.css">');
+        $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/fontawesome_all.css">');
 
         // Подключаем стили от модулей
         $params? $page = self::connect_params($page, 'style', $params):NULL;

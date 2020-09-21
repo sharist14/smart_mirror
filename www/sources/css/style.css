@@ -1,77 +1,79 @@
-.ta-c{
-    text-align: center;
-}
-
-.ta-l{
-    text-align: left;
-}
-
-.ta-r{
-    text-align: right;
-}
-
-.f-l{
-    float: left;
-}
-
-.f-r{
-    float: right;
-}
-
-.container{
+.content{
     background-color: #000000;
     color: white;
-    width: 1280px;
+    width: 1000px;
     height: 1024px;
-    padding: 15px;
+    /*padding: 15px;*/
+    margin: 0 auto;
 }
 
-.line{
-    border-bottom: 1px solid grey;
-}
+/*.line{*/
+    /*border-bottom: 1px solid grey;*/
+/*}*/
+
 
 
 /*---------- WEATHER BLOCK ----------*/
 .weather{
-    width: 416px;
+    width: 500px;
     height: 800px;
     border: 1px dotted white;
-    padding: 5px;
+    padding: 15px;
     font-family: 'Lato', sans-serif;
     /*font-family: 'Work Sans', sans-serif;*/
     /*font-family: 'Roboto', sans-serif;*/
 }
 
+.weather i{
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+.weather_icon{
+    display: inline-block;
+    height: 16px;
+    text-align: center;
+}
+
+/*.weather .left_block div{*/
+    /*padding-left: 15px;*/
+/*}*/
+
+/*.weather .header .temp{*/
+    /*size: 18px;*/
+/*}*/
+
 /*.main .title{*/
     /*margin-top: 27px;*/
 /*}*/
-.main{
-    text-align: center;
-}
+/*.main{*/
+    /*text-align: center;*/
+/*}*/
 
-.main .left_block,
-.main .right_block{
-    display:inline-block;
-    width: 190px;
-}
+/*.main .left_block,*/
+/*.main .right_block{*/
+    /*display:inline-block;*/
+    /*width: 190px;*/
+/*}*/
 
-.main .left_block{
-    text-align: left;
-    line-height: 33px;
-}
+/*.main .left_block{*/
+    /*text-align: left;*/
+    /*line-height: 33px;*/
+/*}*/
 
-.main .right_block{
-    text-align: right;
-    line-height: 25px;
-}
+/*.main .right_block{*/
+    /*text-align: right;*/
+    /*line-height: 25px;*/
+/*}*/
 
-.wind h3{
-    text-align: center;
-}
+/*.wind h3{*/
+    /*text-align: center;*/
+/*}*/
 
-.wind .left_block{
-    line-height: 25px;;
-}
+/*.wind .left_block{*/
+    /*line-height: 25px;;*/
+/*}*/
 
 
 
