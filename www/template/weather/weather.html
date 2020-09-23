@@ -1,41 +1,41 @@
 #[body]#
 <div class="weather">
     <div class="header flex-column">
-        <h3 class="row justify-content-center">{city_name}</h3>
+        <h3 class="row justify-content-center">Санкт-Петербург</h3>
         <div class="row justify-content-center">{weather_icon_img}</div>
-        <div class="h2 row justify-content-center">{temp}</div>
+        <div class="h2 row justify-content-center">{curr_temp}</div>
     </div>
 
     <div class="main row justify-content-center">
         <div class="left_block col-6 flex-column">
-            <div><i class="wi wi-thermometer-exterior"></i> {w_desc}</div>
-            <div><i class="fal fa-head-side"></i> ощущается {temp_like}</div>
-            <div><i class="wi wi-barometer"></i> давление {pressure} гПа</div>
+            <div><i class="wi wi-thermometer-exterior"></i> {curr_description}</div>
+            <div><i class="fal fa-head-side"></i> ощущается {curr_feels_like}</div>
+            <div><i class="wi wi-barometer"></i> давление {curr_pressure} гПа</div>
         </div>
         <div class="right_block col-6 flex-column">
-            <div><i class="fas fa-binoculars"></i> видимость {visibility} м.</div>
-            <div><i class="wi wi-humidity"></i> влажность {humidity}%</div>
-            <div><i class="wi wi-cloudy"></i> облачность {clouds_all}%</div>
+            <div><i class="fas fa-binoculars"></i> видимость {curr_visibility} м.</div>
+            <div><i class="wi wi-humidity"></i> влажность {curr_humidity}%</div>
+            <div><i class="wi wi-cloudy"></i> облачность {curr_clouds}%</div>
         </div>
     </div>
 
     <div class="wind_block mt-4">
         <h3>Ветер</h3>
         <div class="left_block">
-            <div><i class="wi wi-strong-wind"></i> скорость - {wind_speed} км/ч</div>
-            <div><i class="wi wi-wind towards-{wind_deg}-deg"></i> направление - {wind_arrow}</div>
+            <div><i class="wi wi-strong-wind"></i> скорость - {curr_wind_speed} км/ч</div>
+            <div><i class="wi wi-wind towards-{wind_deg}-deg"></i> направление - </div>
         </div>
     </div>
 
     <div class="sun_block mt-4">
         <h3>Солнце</h3>
         <div class="left_block">
-            <div><i class="wi wi-sunrise"></i> рассвет - {sunrise}</div>
-            <div><i class="wi wi-sunset"></i> закат - {sunset}</div>
+            <div><i class="wi wi-sunrise"></i> рассвет - {curr_sunrise}</div>
+            <div><i class="wi wi-sunset"></i> закат - {curr_sunset}</div>
         </div>
     </div>
 
-    <div class="small mt-5">Последнее обновление {update_date}</div>
+    <div class="small mt-5">Последнее обновление {curr_update_date}</div>
 
 </div>
 #[!body]#

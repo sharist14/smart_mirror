@@ -13,7 +13,7 @@ class siteController
 
         // Получаем данные погоды по api
         $weather_api = new openweathermap();
-        $data_temp = $weather_api->getCurrentWeather();
+        $data_temp = $weather_api->getWeather();
         $this->params = $weather_api->getParams();
 
         // Заносим данные в шаблон погоды
