@@ -23,15 +23,24 @@ function get_template($folder, $file, $area){
  */
 function set($template, $area, $value){
 
-    // Ищем область по шаблону
-    if(preg_match("~{".$area."}~", $template)){
-        $replace = preg_replace("~{".$area."}~", $value, $template);
-
-        return $replace;
-
-    } else{
-        return $template;
+    // Если есть массив с данными, первый элемент оригинальное значение, а второй - отформатированное
+    if(is_array($value)){
+        $value_orig = $value[1];
+        $value = $value[0];
     }
+
+
+    // Вставляем данные
+    if(strrpos($template, "{".$area."}")){
+        $template = preg_replace("~{".$area."}~", $value, $template);
+    }
+
+    // Вставляем оригинальные данные
+    if(strrpos($template, "{".$area."_orig}")){
+        $template = preg_replace("~{".$area."_orig}~", $value_orig, $template);
+    }
+
+    return $template;
 }
 
 /**
@@ -39,15 +48,23 @@ function set($template, $area, $value){
  */
 function setm($template, $area, $value){
 
-    // Ищем область по шаблону
-    if(preg_match("~{".$area."}~", $template)){
-        $replace = preg_replace("~{".$area."}~", $value.'{'.$area.'}', $template);
-
-        return $replace;
-
-    } else{
-        return $template;
+    // Если есть массив с данными, первый элемент оригинальное значение, а второй - отформатированное
+    if(is_array($value)){
+        $value_orig = $value[1];
+        $value = $value[0];
     }
+
+    // Вставляем данные
+    if(strrpos($template, "{".$area."}")){
+        $template = preg_replace("~{".$area."}~", $value.'{'.$area.'}', $template);
+    }
+
+    // Вставляем оригинальные данные
+    if(strrpos($template, "{".$area."_orig}")){
+        $template = preg_replace("~{".$area."_orig}~", $value_orig.'{'.$area.'_orig}', $template);
+    }
+
+    return $template;
 }
 
 /**
@@ -94,19 +111,22 @@ function tf($temp){
 /**
  * Отображение даты в читаемом виде
  */
-function df($date, $format = 's'){    //"s" - short(12.05), "m" - middle(12.05.2020), "f" - full(12.05.2020 15:26)
+function df($date, $format = 'fd'){
 
     switch($format){
-        case "s":
+        case "sd":                       //"sd" - short date (12.05)
             $format = "d.m";
             break;
-        case "m":
+        case "fd":                       //"fd" - full date (12.05.2020)
             $format = "d.m.Y";
             break;
-        case "f":
+        case "dt":                       //"dt" - full(12.05.2020 15:26)
             $format = "d.m.Y H:i:s";
             break;
-        case "t":
+        case "st":                       // "st" - short time(18:15)
+            $format = "H:i";
+            break;
+        case "ft":                       // "ft" - full time(18:15:51)
             $format = "H:i:s";
             break;
     }
@@ -157,4 +177,17 @@ function wind_arrow($deg){
 function ucfirst_utf8($str)
 {
     return mb_substr(mb_strtoupper($str, 'utf-8'), 0, 1, 'utf-8') . mb_substr($str, 1, mb_strlen($str)-1, 'utf-8');
+}
+
+// Определяем время суток
+function time_day(){
+
+    $cur_date = date('H:i:s');
+    if( ($cur_date > $this->wObj->sunrise) && ($cur_date < $this->wObj->sunset)){
+        $str = 'Сейчас светло';
+    } else{
+        $str = 'Сейчас темно';
+    }
+
+    return $str;
 }

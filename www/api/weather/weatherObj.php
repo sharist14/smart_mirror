@@ -2,69 +2,79 @@
 
 class weatherObj
 {
-    public $data;               // Полученные от api данные
-    public $weather_arr;        // Массив с обработанными данными
+    public $orig;          // Полученные от api данные
+
+    var $common;            // Общие данные
+    var $current;           // Текущая погода
+    var $minutely;          // Поминутный объем осадков мм на последующие 60 минут
+    var $hourly;            // Почасовой прогноз на ближайшие 48 часов
+    var $daily;             // Ежедневный прогноз на 8 дней
+
 
 
     public function __construct($data){
-        $this->data = $data;
+        $this->orig = $data;
 
-        $this->weather_arr['common'] = $this->common();         // Общие данные
-        $this->weather_arr['current'] = $this->current();       // Текущая погода
-        $this->weather_arr['minutely'] = $this->minutely();     // Поминутный объем осадков мм на последующие 60 минут
-        $this->weather_arr['hourly'] = $this->hourly();         // Почасовой прогноз на ближайшие 48 часов
-        $this->weather_arr['daily'] = $this->daily();         // Почасовой прогноз на ближайшие 48 часов
+        $this->common   = $this->common();
+        $this->current  = $this->current();
+        $this->minutely = $this->minutely();
+        $this->hourly   = $this->hourly();
+        $this->daily    = $this->daily();
     }
+
 
     /* Общие данные */
     public function common(){
-        return [
-            'comm_coord' => $this->data['lat'].','.$this->data['lon'],
-            'comm_timezone' => $this->data['timezone'],
-            'comm_timezone_offset' => $this->data['timezone_offset'],
-        ];
+        $common['comm_coord']           = $this->orig['lat'].','.$this->orig['lon'];
+        $common['comm_timezone']        = $this->orig['timezone'];
+        $common['comm_timezone_offset'] = $this->orig['timezone_offset'];
+
+        return $common;
     }
+
 
     /* Текущая погода */
     public function current(){
-        return [
-            'curr_update_date' => $this->data['current']['dt'],                         // Время расчета данных, unix
-            'curr_sunrise' => $this->data['current']['sunrise'],                        // Рассвет
-            'curr_sunset' => $this->data['current']['sunset'],                          // Закат
-            'curr_temp' => $this->data['current']['temp'],                              // температура
-            'curr_feels_like' => $this->data['current']['feels_like'],                  // ощущается как
-            'curr_pressure' => $this->data['current']['pressure'],                      // давление в гПа
-            'curr_humidity' => $this->data['current']['humidity'],                      // влажность в %
-            'curr_dew_point' => $this->data['current']['dew_point'],                    // Атмосферная температура (меняется в зависимости от давления и влажности), ниже которой капли воды начинают конденсироваться и может образовываться роса. Единицы в метрическая система: Цельсий
-            'curr_uvi' => $this->data['current']['uvi'],                                // Полуденный ультрафиолетовый индекс
-            'curr_clouds' => $this->data['current']['clouds'],                          // Облачность в %
-            'curr_visibility' => $this->data['current']['visibility'],                  // видимость в метрах
-            'curr_wind_speed' => $this->data['current']['wind_speed'],                  // скорость ветра
-            'curr_wind_deg' => $this->data['current']['wind_deg'],                      // направление ветра, градусы (метеорологические)
-            'curr_w_id' => $this->data['current']['weather'][0]['id'],                  // id текущей погоды
-            'curr_w_main' => $this->data['current']['weather'][0]['main'],            // группа погодных условий
-            'curr_description' => $this->data['current']['weather'][0]['description'],  // описание текущей погоды
-            'curr_icon' => $this->data['current']['weather'][0]['icon'],                // id иконки
+        $current['curr_update_date']    = [ df($this->orig['current']['dt'],'dt'), $this->orig['current']['dt'] ];                         // Время расчета данных, unix
+        $current['curr_sunrise']        = [ df($this->orig['current']['sunrise'],'ft'), $this->orig['current']['sunrise']];                        // Рассвет
+        $current['curr_sunset']         = [ df($this->orig['current']['sunset'],'ft'), $this->orig['current']['sunset'] ];                          // Закат
+        $current['curr_temp']           = [ tf($this->orig['current']['temp']), $this->orig['current']['temp'] ];                              // температура
+        $current['curr_feels_like']     = [ tf($this->orig['current']['feels_like']), $this->orig['current']['feels_like'] ];                  // ощущается как
+        $current['curr_pressure']       = $this->orig['current']['pressure'];                      // давление в гПа
+        $current['curr_humidity']       = $this->orig['current']['humidity'];
+        $current['curr_dew_point']      = [ tf($this->orig['current']['dew_point']), $this->orig['current']['dew_point'] ];                    // Атмосферная температура (меняется в зависимости от давления и влажности), ниже которой капли воды начинают конденсироваться и может образовываться роса. Единицы в метрическая система: Цельсий
+        $current['curr_uvi']            = $this->orig['current']['uvi'];                                // Полуденный ультрафиолетовый индекс
+        $current['curr_clouds']         = $this->orig['current']['clouds'];                          // Облачность в %
+        $current['curr_visibility']     = $this->orig['current']['visibility'];                  // видимость в метрах
+        $current['curr_wind_speed']     = $this->orig['current']['wind_speed'];                  // скорость ветра
+        $current['curr_wind_deg']       = $this->orig['current']['wind_deg'];                      // направление ветра, градусы (метеорологические)
+        $current['curr_wind_arrow']     = [ wind_arrow($this->orig['current']['wind_deg']),$this->orig['current']['wind_deg'] ];                      // направление ветра, часть света
+        $current['curr_w_id']           = $this->orig['current']['weather'][0]['id'];                  // id текущей погоды
+        $current['curr_w_main']         = $this->orig['current']['weather'][0]['main'];            // группа погодных условий
+        $current['curr_description']    = $this->orig['current']['weather'][0]['description'];  // описание текущей погоды
+        $current['curr_icon']           = $this->orig['current']['weather'][0]['icon'];                // id иконки
+        $current['curr_wind_gust']      = $this->orig['current']['wind_gust'];                    // порыв ветра метр/сек (когда доступно)
+        $current['curr_rain_1h']        = $this->orig['current']['rain'][0]['1h'];                  // Объем дождя за последний час, мм (когда доступно)
+        $current['curr_snow_1h']        = $this->orig['current']['snow'][0]['1h'];                  // Объем снега за последний час, мм (когда доступно)
 
-            'curr_wind_gust' => $this->data['current']['wind_gust'],                    // порыв ветра метр/сек (когда доступно)
-            'curr_rain_1h' => $this->data['current']['rain'][0]['1h'],                  // Объем дождя за последний час, мм (когда доступно)
-            'curr_snow_1h' => $this->data['current']['snow'][0]['1h'],                  // Объем снега за последний час, мм (когда доступно)
-        ];
+        return $current;
     }
+
 
     /* Поминутный объем осадков на последующие 60 минут */
     public function minutely(){
 
-        foreach($this->data['minutely'] as $arr){
+        foreach($this->orig['minutely'] as $arr){
             $minutely[$arr['dt']] = $arr['precipitation'];
         }
 
         return $minutely;
     }
 
+
     /* Почасовой прогноз на ближайшие 48 часов */
     public function hourly(){
-        foreach($this->data['hourly'] as $data){
+        foreach($this->orig['hourly'] as $data){
             $dt = $data['dt'];
             $hour[$dt]['hour_temp'] = $data['temp'];                                // температура
             $hour[$dt]['hour_feels_like'] = $data['feels_like'];                    // ощущается как
@@ -89,10 +99,11 @@ class weatherObj
         return $hour;
     }
 
+
     /* Ежедневный прогноз на ближайшие 8 дней */
     public function daily(){
 
-        foreach ($this->data['daily'] as $data) {
+        foreach ($this->orig['daily'] as $data) {
             $dt = $data['dt'];
             $daily[$dt]['day_sunrise'] = $data['sunrise'];
             $daily[$dt]['day_sunset'] = $data['sunset'];

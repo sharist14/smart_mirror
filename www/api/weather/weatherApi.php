@@ -1,15 +1,17 @@
 <?php
 
+require_once(WWW.'/api/weather/weatherObj.php');
+
 // Weather api
-class openweathermap
+class weatherApi
 {
 
     public $url_curr_weather = 'api.openweathermap.org/data/2.5/';
     public $city_name = 'Saint Petersburg,RU';
-    public $city_id = '498817';   //Saint Petersburg
+    public $city_id = '498817';                     //Saint Petersburg
     public $city_coord = 'lat=59.89&lon=30.26';
-//    public $wObj;
-//    public $waObj;
+    public $wObj;                                   // Объект с готовыми данными
+
 
 
     public function getWeather(){
@@ -17,7 +19,7 @@ class openweathermap
         $body = get_template('weather', 'weather', 'body');
         
 
-        /* One call API */
+        /* Подгатавливаем запрос к получению данных */
         $operation = 'onecall';
         $url = $this->url_curr_weather.$operation.'?'.$this->city_coord.'&appid='.WEATHER_CURRENT_API.'&lang=ru&units=metric';
 
@@ -25,18 +27,7 @@ class openweathermap
         $data_api = $this->send_query($url);
 
         // Если данные корректные, добавляем их в объект
-        if( !$data_api['message']){
-            require_once(WWW.'/api/weather/weatherObj.php');
-            $this->wObj = new weatherObj($data_api);
-        } else{
-            die('Не удалось получить корректные данные о погоде по api');
-        }
-
-//        pre($weather['current'] = $this->waObj->current());
-
-//        pre($this->wObj->weather_arr);
-//        pre($data_api);
-
+        (!$data_api['message'])? $this->wObj = new weatherObj($data_api) : die('Не удалось получить корректные данные о погоде по api');
 
 
         // Отправляем на рендер
@@ -44,21 +35,8 @@ class openweathermap
 
 
         return $body;
-
-        /* Current weather */
-        /*$operation = 'weather';
-        $url = $this->url_curr_weather.$operation.'?id='.$this->city_id.'&APPID='.WEATHER_CURRENT_API.'&lang=ru&units=metric';
-        $data_curr = $this->send_query($url); // Запрашиваем погоду
-
-        // Если данные корректные, добавляем их в объект
-        if( !$data_curr['message']){
-            require_once(WWW.'/api/weather/weatherObj.php');
-            $this->wObj = new weatherObj($data_curr);
-        } else{
-            die('Не удалось получить корректные данные о погоде по api');
-        }*/
-
     }
+
 
     public function send_query($url){
         $ch = curl_init();
@@ -76,37 +54,45 @@ class openweathermap
 
 
     public function renderData($body){
-        
-//        pre($this->wObj);
-        
-        
-        // Вставляем из класса все данные полученные из api
-        foreach($this->wObj->weather_arr as $type => $arr){
-            foreach($arr as $title => $value){
-                $body = set($body, $title, $value );
+
+        $icon = '<img src="http://openweathermap.org/img/wn/';
+
+        /* БЛОК ТЕКУЩЕЙ ПОГОДЫ */
+        foreach($this->wObj->current as $title => $value){
+            $body = set($body, $title, $value );
+        }
+
+        // главная иконка
+        $curr_icon = $icon.$this->wObj->current['curr_icon'].'@2x.png">';
+        $body = set($body, 'weather_icon_img', $curr_icon);
+
+
+
+        /* БЛОК ПОГОДЫ ПО ДНЯМ */
+
+        $row_day = get_template('weather', 'weather', 'row_day');
+
+        pre($this->wObj->daily);
+        foreach($this->wObj->daily as $datetime => $arr){
+            pre(date('d.m.Y', $datetime));
+
+            if(date('Ymd', $datetime) > date('Ymd')) {
+
+                $name_day = date('w', $datetime);
+                $date = date('d.m', $datetime);
+
+                $body = set($body, 'date_' . $name_day, $date);
+                $body = set($body, 'temp_' . $name_day, tf($arr['day_temp']));
+
+                $curr_icon = $icon . $arr['day_w_icon'] . '.png">';
+                $body = set($body, 'icon_' . $name_day, $curr_icon);
             }
         }
 
 
-
-
-        // Определяем время суток
-        $cur_date = date('H:i:s', time());
-        if( ($cur_date > $this->wObj->sunrise) && ($cur_date < $this->wObj->sunset)){
-//            pre('Сейчас светло');
-        } else{
-//            pre('Сейчас темно');
-        }
-
-
-        // Главная иконка
-        $icon = '<img src="http://openweathermap.org/img/wn/'.$this->wObj->w_icon.'@2x.png">';
-        $body = set($body, 'weather_icon_img', $icon);
-
-
-
         return $body;
     }
+
 
     public function getParams(){
 

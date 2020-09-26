@@ -1,5 +1,5 @@
 <?php
-require_once(WWW.'/api/weather/openweathermap.php');
+require_once(WWW.'/api/weather/weatherApi.php');
 
 
 class siteController
@@ -12,9 +12,9 @@ class siteController
 
 
         // Получаем данные погоды по api
-        $weather_api = new openweathermap();
-        $data_temp = $weather_api->getWeather();
-        $this->params = $weather_api->getParams();
+        $weather = new weatherApi();
+        $data_temp = $weather->getWeather();
+        $this->params = $weather->getParams();
 
         // Заносим данные в шаблон погоды
         $body = set($body, 'weather', $data_temp);

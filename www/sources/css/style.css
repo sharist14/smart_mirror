@@ -2,7 +2,7 @@
     background-color: #000000;
     color: white;
     width: 1000px;
-    height: 1024px;
+    height: 1600px;
     /*padding: 15px;*/
     margin: 0 auto;
 }
@@ -16,7 +16,7 @@
 /*---------- WEATHER BLOCK ----------*/
 .weather{
     width: 500px;
-    height: 800px;
+    height: 1500px;
     border: 1px dotted white;
     padding: 15px;
     font-family: 'Lato', sans-serif;
@@ -74,6 +74,26 @@
 /*.wind .left_block{*/
     /*line-height: 25px;;*/
 /*}*/
+
+.days_block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.days_block .col{
+    padding: 0;
+    border-left: 1px solid rgba(255,255,255,0.5);
+}
+
+.days_block .col:nth-child(1){
+    border-left:none;
+}
+
+.days_block .col div,
+.days_block_title{
+    text-align: center;
+}
 
 
 
