@@ -70,22 +70,48 @@ class weatherApi
 
         /* БЛОК ПОГОДЫ ПО ДНЯМ */
 
-        $row_day = get_template('weather', 'weather', 'row_day');
+        $day_row = get_template('weather', 'weather', 'day_row');
 
-        pre($this->wObj->daily);
         foreach($this->wObj->daily as $datetime => $arr){
-            pre(date('d.m.Y', $datetime));
 
-            if(date('Ymd', $datetime) > date('Ymd')) {
+            $tt = $day_row;
 
-                $name_day = date('w', $datetime);
-                $date = date('d.m', $datetime);
+            $num_day = date('w', $datetime);
+            $name_day = day_of_week($num_day, 'ru_short');    // День недели
 
-                $body = set($body, 'date_' . $name_day, $date);
-                $body = set($body, 'temp_' . $name_day, tf($arr['day_temp']));
+            $date = date('d.m', $datetime);         // Дата в формате "14.02"
 
-                $curr_icon = $icon . $arr['day_w_icon'] . '.png">';
-                $body = set($body, 'icon_' . $name_day, $curr_icon);
+
+            $tt = set($tt, 'day_of_weak', $name_day);
+            $tt = set($tt, 'date', $date);
+            $tt = set($tt, 'temp',  tf($arr['day_temp']));
+
+            $curr_icon = $icon . $arr['day_w_icon'] . '.png">';
+            $tt = set($tt, 'icon', $curr_icon);
+
+            // Добавляем все даты
+            $body = setm($body, 'days_rows', $tt);
+
+            // Выделяем текущий день
+            if(date('Ymd', $datetime) == date('Ymd')) {
+                $body = set($body, 'selected', 'selected_day');
+            }
+        }
+
+
+        /* БЛОК ПОГОДЫ ПОЧАСОВОЙ на 48 часов */
+//        pre($this->wObj->hourly);
+
+        // Подключаем библиотеку для рисования графиков
+        include(WWW.'/api/pChart/class/pData.class.php');
+        include(WWW.'/api/pChart/class/pDraw.class.php');
+        include(WWW.'/api/pChart/class/pImage.class.php');
+
+        foreach($this->wObj->hourly as $datetime => $arr){
+
+            // Берем только данные за текущий день
+            if(date('Ymd',$datetime) == date('Ymd') ){
+                pre($datetime);
             }
         }
 

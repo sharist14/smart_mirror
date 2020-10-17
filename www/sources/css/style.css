@@ -86,15 +86,20 @@
     border-left: 1px solid rgba(255,255,255,0.5);
 }
 
-.days_block .col:nth-child(1){
-    border-left:none;
-}
+/*.days_block .col:nth-child(1){*/
+    /*border-left:none;*/
+/*}*/
 
 .days_block .col div,
 .days_block_title{
     text-align: center;
 }
 
+
+.selected_day{
+    background-color: #313131;
+    border: 1px solid #fff;
+}
 
 
 

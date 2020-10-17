@@ -191,3 +191,40 @@ function time_day(){
 
     return $str;
 }
+
+// Определяем день недели
+function day_of_week($num_day, $format){
+    $title = [
+        1 => [
+            'ru_full' => 'Понедельник',
+            'ru_short' => 'Пн'
+        ],
+        2 => [
+            'ru_full' => 'Вторник',
+            'ru_short' => 'Вт'
+        ],
+        3 => [
+            'ru_full' => 'Среда',
+            'ru_short' => 'Ср'
+        ],
+        4 => [
+            'ru_full' => 'Четверг',
+            'ru_short' => 'Чт'
+        ],
+        5 => [
+            'ru_full' => 'Пятница',
+            'ru_short' => 'Пт'
+        ],
+        6 => [
+            'ru_full' => 'Суббота',
+            'ru_short' => 'Сб'
+        ],
+        0 => [
+            'ru_full' => 'Воскресенье',
+            'ru_short' => 'Вс'
+        ],
+
+    ];
+
+    return $title[$num_day][$format];
+}

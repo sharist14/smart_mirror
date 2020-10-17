@@ -46,54 +46,15 @@
     </div>
 
 
+    <!-- Почасовой прогноз на ближайшие 48 часов -->
+    <h4 class="hourly_block_title mt-5">Почасовой прогноз на день</h4>
 
 
 
     <!--Погода по дням-->
     <h4 class="days_block_title mt-5">Погода на неделю</h4>
     <div class="days_block mt-3">
-        <div class="monday col">
-            <div>Пн</div>
-            <div>{date_1}</div>
-            <div>{icon_1}</div>
-            <div>{temp_1}</div>
-        </div>
-        <div class="tuesday col">
-            <div>Вт</div>
-            <div>{date_2}</div>
-            <div>{icon_2}</div>
-            <div>{temp_2}</div>
-        </div>
-        <div class="wednesday col">
-            <div>Ср</div>
-            <div>{date_3}</div>
-            <div>{icon_3}</div>
-            <div>{temp_3}</div>
-        </div>
-        <div class="thursday col">
-            <div>Чт</div>
-            <div>{date_4}</div>
-            <div>{icon_4}</div>
-            <div>{temp_4}</div>
-        </div>
-        <div class="friday col">
-            <div>Пт</div>
-            <div>{date_5}</div>
-            <div>{icon_5}</div>
-            <div>{temp_5}</div>
-        </div>
-        <div class="saturday col">
-            <div>Сб</div>
-            <div>{date_6}</div>
-            <div>{icon_6}</div>
-            <div>{temp_6}</div>
-        </div>
-        <div class="sunday col">
-            <div>Вс</div>
-            <div>{date_0}</div>
-            <div>{icon_0}</div>
-            <div>{temp_0}</div>
-        </div>
+        {days_rows}
     </div>
 
 
@@ -107,8 +68,13 @@
 </div>
 #[!body]#
 
-#[row_day]#
+#[day_row]#
 
+<div class="col {selected}">
+    <div>{day_of_weak}</div>
+    <div>{date}</div>
+    <div>{icon}</div>
+    <div>{temp}</div>
+</div>
 
-
-#[!row_day]#
+#[!day_row]#
