@@ -8,39 +8,31 @@ class viewController extends viewTemplate
      */
     public static function display($data, $params=''){
 
+        if(preg_match("~{(.*)}~", $data)) {
+            $data = preg_replace("~{(.*)}~", '', $data);
+        }
+        
+
         // Получаем шаблон
-        $page = get_template('layers', 'main_page', 'full');
+        $page = get_template('layers', 'index', 'full');
 
         // Подключаем общие стили стили
-        $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/style.css">');
-        $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/bootstrap.min.css">');
-        $page = setm($page, 'style', '<link rel="stylesheet" href="/sources/css/fontawesome_all.css">');
+        $page = setm($page, 'head', '<link rel="stylesheet" href="/sources/css/style.css">');
+        $page = setm($page, 'head', '<link rel="stylesheet" href="/sources/css/bootstrap.min.css">');
+        $page = setm($page, 'head', '<link rel="stylesheet" href="/sources/css/fontawesome_all.css">');
+        $page = setm($page, 'head', '<link rel="stylesheet" href="/sources/css/media_query.css">');
 
         // Подключаем стили от модулей
-        $params? $page = self::connect_params($page, 'style', $params):NULL;
+        $params? $page = self::connect_params($page, 'head', $params):NULL;
 
-        // Подключаем общие скрипты
-        $page = setm($page, 'script', '<script src="/sources/js/bootstrap.min.js"></script>');
-        $page = setm($page, 'script', '<script src="/sources/js/bootstrap.bundle.min.js"></script>');
+        $page = setm($page, 'head', '<script src="/sources/js/jquery-3.5.1.min.js"></script>');
+        $page = setm($page, 'head', '<script src="/sources/js/bootstrap.min.js"></script>');
+        $page = setm($page, 'head', '<script src="/sources/js/bootstrap.bundle.min.js"></script>');
 
         // Добавляем контент в body
         $page = set($page, 'content', $data);
 
         self::render($page);
-    }
-
-    /**
-     * Отображение страницы клиенту
-     */
-    public static function render($page){
-
-        // Убираем слова в фигурных скобках если такие есть
-        if(preg_match("~{(.*)}~", $page)) {
-            $replace = preg_replace("~{(.*)}~", '', $page);
-
-            // Выводим страницу пользователю
-            print($replace);
-        }
     }
 
     // Подключение параметров к странице
@@ -55,9 +47,18 @@ class viewController extends viewTemplate
             }
         }
 
-        
         return $page;
     }
 
+    /**
+     * Отображение страницы клиенту
+     */
+    public static function render($page){
 
+        // Убираем слова в фигурных скобках если такие есть
+        $tag_del = ['{head}', '{script}', '{content}'];
+        $page = str_replace($tag_del,'',$page);
+
+        print($page);
+    }
 }

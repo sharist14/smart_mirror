@@ -14,7 +14,7 @@ function get_template($folder, $file, $area){
         // Ищем область по шаблону
         preg_match($template, file_get_contents($way), $result);
 
-        return ($result[1])? : die('Проблема с файлом или шаблоном');
+        return ($result[1])? : die('Проблема с вызовом шаблона <span style="color:red;font-weight: bold">{'.$area.'}</span> в файле <span style="color:red;font-weight: bold">/www/template/'.$folder.'/'.$file.'.htm</span>');
     }
 }
 

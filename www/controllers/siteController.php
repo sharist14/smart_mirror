@@ -8,7 +8,6 @@ class siteController
 
     public function actionMain(){
         $body = get_template('site', 'body_content', 'body');
-        $row = get_template('site', 'body_content', 'row');
 
 
         // Получаем данные погоды по api

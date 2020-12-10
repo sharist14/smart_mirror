@@ -8,7 +8,7 @@ class Router
     //покдлючаемся к БД
     public function __construct(){
         $Db = new Db();
-        $Db->getConnect();
+//        $Db->getConnect();
 
         $this->routes = include('routes.php');
     }
@@ -45,7 +45,7 @@ class Router
 
                     break;
                 } else{
-                    header('Location: http://smart-mirror/');
+                    header('Location: http://repelet.ru/');
                 }
             }
         }

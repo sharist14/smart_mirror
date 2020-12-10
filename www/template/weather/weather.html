@@ -1,66 +1,64 @@
 #[body]#
-<div class="weather">
+<div id="weather">
 
-    <!--Текущая погода-->
-    <div class="header flex-column">
-        <h3 class="row justify-content-center">Санкт-Петербург</h3>
-        <div class="row justify-content-center">{weather_icon_img}</div>
-        <div class="h2 row justify-content-center">{curr_temp}</div>
-    </div>
 
-    <div class="main row justify-content-center">
-        <div class="left_block col-6 flex-column">
-            <div><i class="wi wi-thermometer-exterior"></i> {curr_description}</div>
-            <div><i class="fal fa-head-side"></i> ощущается {curr_feels_like}</div>
-            <div><i class="wi wi-barometer"></i> давление {curr_pressure} гПа</div>
+    <div class="row justify-content-center">
+
+        <!--Строка с температурой-->
+        <div class="main row col-12">
+            <div class="left_block col-4 d-flex flex-column">
+                <div><i class="wi wi-thermometer-exterior"></i> {curr_description}</div>
+                <div><i class="fal fa-head-side"></i> <span class="w_param">ощущается:</span> <span class="w_val">{curr_feels_like}</span>   </div>
+                <div><i class="wi wi-barometer"></i>  <span class="w_param">давление:</span>  <span class="w_val">{curr_pressure} гПа</span> </div>
+            </div>
+
+            <div class="center_block col-4 d-flex flex-row align-items-center">
+                <video width="250" height="250" preload="auto" autoplay="true" loop="true" muted="muted">
+                    <source src="{video_icon}" type="video/mp4">
+                </video>
+                <div class="curr_temp">{curr_temp}</div>
+            </div>
+
+            <div class="right_block col-4 d-flex flex-column">
+                <div><i class="fas fa-binoculars"></i> <span class="w_param">видимость: </span> <span class="w_val">{curr_visibility} м.</span> </div>
+                <div><i class="wi wi-humidity"></i>    <span class="w_param">влажность: </span> <span class="w_val">{curr_humidity}%</span>     </div>
+                <div><i class="wi wi-cloudy"></i>      <span class="w_param">облачность:</span> <span class="w_val"> {curr_clouds}%</span>      </div>
+            </div>
         </div>
-        <div class="right_block col-6 flex-column">
-            <div><i class="fas fa-binoculars"></i> видимость {curr_visibility} м.</div>
-            <div><i class="wi wi-humidity"></i> влажность {curr_humidity}%</div>
-            <div><i class="wi wi-cloudy"></i> облачность {curr_clouds}%</div>
+
+        <!--Строка с параметрами-->
+        <div class="parameters row col-12 mt-4">
+            <div class="left_block col-4 d-flex flex-column">
+                <div class="w_subtitle">Ветер</div>
+                <div><i class="wi wi-strong-wind"></i>                      <span class="w_param">скорость:</span>     <span class="w_val">{curr_wind_speed} км/ч</span> </div>
+                <div><i class="wi wi-wind towards-{curr_wind_deg}-deg"></i> <span class="w_param">направление:</span>  <span class="w_val"> {curr_wind_arrow}</span>     </div>
+            </div>
+
+            <div class="center_block col-4 d-flex flex-column">
+                <div class="w_subtitle">Солнце</div>
+                <div><i class="wi wi-sunrise"></i> <span class="w_param">рассвет</span> <span class="w_val"> {curr_sunrise}</span> </div>
+                <div><i class="wi wi-sunset"></i>  <span class="w_param">закат</span>   <span class="w_val"> {curr_sunset}</span>  </div>
+            </div>
+
+            <div class="right_block col-4 d-flex flex-column">
+                <div class="w_subtitle text-center">Комфорт</div>
+                <div><i class="fal fa-sunglasses"></i> <span class="w_param">УФ индекс:</span>  <span class="w_val">{curr_uvi} {desc_uvi}</span> </div>
+                <div><i class="fal fa-dewpoint"></i>   <span class="w_param">точка росы:</span> <span class="w_val">{curr_dew_point}</span>      </div>
+            </div>
+        </div>
+
+
+        <!-- Почасовой прогноз на ближайшие 48 часов -->
+        <div class="col-12 text-center hourly_block_title"><span class="h2"></span></div>
+        <div id="chart_div" style="width: 100%;" class="chart_div col-10"></div>
+
+
+        <!--Погода по дням-->
+        <div class="col-12 text-center days_block_title"><span class="h2"></span></div>
+        <div class="days_block mt-3 col-10">
+            {days_rows}
         </div>
     </div>
-
-    <div class="wind_block mt-4">
-        <h3>Ветер</h3>
-        <div class="left_block">
-            <div><i class="wi wi-strong-wind"></i> скорость - {curr_wind_speed} км/ч</div>
-            <div><i class="wi wi-wind towards-{curr_wind_deg}-deg"></i> направление - {curr_wind_arrow}</div>
-        </div>
-    </div>
-
-    <div class="sun_block mt-4">
-        <h3>Солнце</h3>
-        <div class="left_block">
-            <div><i class="wi wi-sunrise"></i> рассвет - {curr_sunrise}</div>
-            <div><i class="wi wi-sunset"></i> закат - {curr_sunset}</div>
-        </div>
-    </div>
-
-    <div class="comfort_block mt-4">
-        <h3>Комфорт</h3>
-        <div class="left_block">
-            <div><i class=""></i> УФ индекс - {curr_uvi} {desc_uvi}</div>
-            <div><i class=""></i> точка росы - {curr_dew_point}</div>
-        </div>
-    </div>
-
-
-    <!-- Почасовой прогноз на ближайшие 48 часов -->
-    <h4 class="hourly_block_title mt-5">Почасовой прогноз на день</h4>
-
-
-
-    <!--Погода по дням-->
-    <h4 class="days_block_title mt-5">Погода на неделю</h4>
-    <div class="days_block mt-3">
-        {days_rows}
-    </div>
-
-
-
-
-
 
 
     <div class="small mt-5">Последнее обновление {curr_update_date}</div>
