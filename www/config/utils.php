@@ -18,6 +18,8 @@ function get_template($folder, $file, $area){
     }
 }
 
+
+
 /**
  * Вставка данных в шаблон
  */
@@ -43,6 +45,8 @@ function set($template, $area, $value){
     return $template;
 }
 
+
+
 /**
  * Множественная вставка данных в шаблон
  */
@@ -67,8 +71,10 @@ function setm($template, $area, $value){
     return $template;
 }
 
+
+
 /**
- * Вывод информации в удобном виде
+ * Вывод технической информации в удобном виде
  */
 function pre($data){
 
@@ -98,15 +104,28 @@ function pre($data){
     return true;
 }
 
+
+
 /**
  * Отображение в формате температуры
  */
-function tf($temp){
+function tf($temp, $format = 'celsius'){
 
-    $temp = round($temp).'&#8451;';
+    switch ($format){
+        case 'min':
+            $display = '&#176;'; // degree
+            break;
+        case 'celsius':
+            $display = '&#8451;'; // degree Celsius
+            break;
+    }
+
+    $temp = round($temp).$display;
 
     return $temp;
 }
+
+
 
 /**
  * Отображение даты в читаемом виде
@@ -133,6 +152,8 @@ function df($date, $format = 'fd'){
 
     return date($format, $date);
 }
+
+
 
 /**
  * Направление ветра
@@ -170,14 +191,16 @@ function wind_arrow($deg){
     }
 
     return $direct;
-
 }
+
+
 
 // Первая заглавная буква (для utf-8)
-function ucfirst_utf8($str)
-{
+function ucfirst_utf8($str){
     return mb_substr(mb_strtoupper($str, 'utf-8'), 0, 1, 'utf-8') . mb_substr($str, 1, mb_strlen($str)-1, 'utf-8');
 }
+
+
 
 // Определяем время суток
 function time_day(){
@@ -191,6 +214,8 @@ function time_day(){
 
     return $str;
 }
+
+
 
 // Определяем день недели
 function day_of_week($num_day, $format){

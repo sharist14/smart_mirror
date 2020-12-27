@@ -6,7 +6,7 @@ class weatherObj
 
     var $common;            // Общие данные
     var $current;           // Текущая погода
-    var $minutely;          // Поминутный объем осадков мм на последующие 60 минут
+    var $rain;              // Поминутный объем осадков мм на последующие 60 минут
     var $hourly;            // Почасовой прогноз на ближайшие 48 часов
     var $daily;             // Ежедневный прогноз на 8 дней
 
@@ -17,7 +17,7 @@ class weatherObj
 
         $this->common   = $this->common();
         $this->current  = $this->current();
-        $this->minutely = $this->minutely();
+        $this->rain     = $this->rain();
         $this->hourly   = $this->hourly();
         $this->daily    = $this->daily();
     }
@@ -38,7 +38,7 @@ class weatherObj
         $current['curr_update_date']    = [ df($this->orig['current']['dt'],'dt'), $this->orig['current']['dt'] ];                         // Время расчета данных, unix
         $current['curr_sunrise']        = [ df($this->orig['current']['sunrise'],'ft'), $this->orig['current']['sunrise']];                        // Рассвет
         $current['curr_sunset']         = [ df($this->orig['current']['sunset'],'ft'), $this->orig['current']['sunset'] ];                          // Закат
-        $current['curr_temp']           = [ round($this->orig['current']['temp']), $this->orig['current']['temp'] ];                              // температура
+        $current['curr_temp']           = [ tf($this->orig['current']['temp'], 'min'), $this->orig['current']['temp'] ];                              // температура
         $current['curr_feels_like']     = [ tf($this->orig['current']['feels_like']), $this->orig['current']['feels_like'] ];                  // ощущается как
         $current['curr_pressure']       = $this->orig['current']['pressure'];                      // давление в гПа
         $current['curr_humidity']       = $this->orig['current']['humidity'];
@@ -61,14 +61,14 @@ class weatherObj
     }
 
 
-    /* Поминутный объем осадков на последующие 60 минут */
-    public function minutely(){
+    /* Поминутный объем осадков (в мм/кв.м) на ближайший 1 час */
+    public function rain(){
 
         foreach($this->orig['minutely'] as $arr){
-            $minutely[$arr['dt']] = $arr['precipitation'];
+            $rain[$arr['dt']] = $arr['precipitation'];
         }
 
-        return $minutely;
+        return $rain;
     }
 
 

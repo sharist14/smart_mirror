@@ -2,16 +2,16 @@
 
 require_once(WWW.'/api/weather/weatherObj.php');
 
-// Weather api
+
 class weatherApi
 {
 
     public $url_curr_weather = 'https://api.openweathermap.org/data/2.5/';
-    public $city_name = 'Saint Petersburg,RU';
-    public $city_id = '498817';                     //Saint Petersburg
-    public $city_coord = 'lat=59.89&lon=30.26';
-    public $wObj;                                   // Объект с готовыми данными
-    public $hour_chart;
+    public $city_name = 'Saint Petersburg,RU';      // title city (Saint-Petersburg)
+    public $city_id = '498817';                     // city id (Saint-Petersburg)
+    public $city_coord = 'lat=59.89&lon=30.26';     // city coordinate (Saint-Petersburg)
+    public $wObj;                                   // Obj with data from API
+    public $hour_chart;                             // chart for hour forecast
 
 
 
@@ -28,7 +28,6 @@ class weatherApi
 
         // Если данные корректные, добавляем их в объект
         (!$data_api['message'])? $this->wObj = new weatherObj($data_api) : die('Не удалось получить корректные данные о погоде по api');
-
 
         // Отправляем на рендер
         $body = $this->renderData($body);
@@ -55,21 +54,26 @@ class weatherApi
 
     public function renderData($body){
 
+        // TODO поменять расположение блоков
+        // блок с иконкой в левом верхнем углу, под ним иемпература, а справа остальные блоки
+
+        // TODO сделать мобильную версию блоков
+
+
         $icon = '<img src="http://openweathermap.org/img/wn/';
 
-        /* БЛОК ТЕКУЩЕЙ ПОГОДЫ */
+        
+        /******* БЛОК ТЕКУЩЕЙ ПОГОДЫ *******/
+
         foreach($this->wObj->current as $title => $value){
             $body = set($body, $title, $value );
         }
-
 
         /*Иконка от weather api
         $curr_icon = $icon.$this->wObj->current['curr_icon'].'@2x.png">';
         $body = set($body, 'weather_icon_img', $curr_icon);*/
 
-
-
-        // Проверяем не ночь ли сейчас
+        // Проверяем не ночь ли сейчас (для отображения ночной иконки)
         $night = false;
         $curr_time = $this->wObj->current['curr_update_date'][1];
         $curr_time = date('H', $curr_time);
@@ -77,8 +81,10 @@ class weatherApi
             $night = true;
         }
 
+        // TODO Нужно сделать так, чтобы после захода солнца, не показывало иконки где есть солнце
+        // функция time_day
 
-        // Получаем имя иконки
+        // Получаем имя текущей иконки
         if(!$night){
             $cur_id = $this->wObj->current['curr_w_id'];
             $icon_name = $this->getNameIcon($cur_id);
@@ -86,14 +92,23 @@ class weatherApi
             $icon_name = '000';
         }
 
-
         //Добавляем видео иконку
         $body = set($body, 'video_icon', 'sources/icon/'.$icon_name.'.mp4');
 
+        // TODO вывести количество осадков (берем данные за ближайшие 15 минут и выводим в виде капелек)
+        // Если есть осадки
+        if( max($this->wObj->rain) > 0 ){
+            foreach($this->wObj->rain as $datetime => $precipitation){
+                pre( df($datetime, 'st') .' - '. $precipitation . ' мм.' );
+            }
+        }
+
+        /******* конец БЛОК ТЕКУЩЕЙ ПОГОДЫ *******/
 
 
 
-        /* БЛОК ПОГОДЫ ПОЧАСОВОЙ на 48 часов */
+        /******* БЛОК ПОГОДЫ ПОЧАСОВОЙ на 48 часов *******/
+
         foreach($this->wObj->hourly as $datetime => $arr){
 
             // Берем только данные за текущий день
@@ -105,8 +120,12 @@ class weatherApi
             }
         }
 
+        /******* конец БЛОК ПОГОДЫ ПОЧАСОВОЙ на 48 часов *******/
 
-        /* БЛОК ПОГОДЫ ПО ДНЯМ */
+
+
+        /******* БЛОК ПОГОДЫ ПО ДНЯМ *******/
+
         $day_row = get_template('weather', 'weather', 'day_row');
 
         foreach($this->wObj->daily as $datetime => $arr){
@@ -115,9 +134,7 @@ class weatherApi
 
             $num_day = date('w', $datetime);
             $name_day = day_of_week($num_day, 'ru_short');    // День недели
-
-            $date = date('d.m', $datetime);         // Дата в формате "14.02"
-
+            $date = date('d.m', $datetime);                   // Дата в формате "14.02"
 
             $tt = set($tt, 'day_of_weak', $name_day);
             $tt = set($tt, 'date', $date);
@@ -135,6 +152,9 @@ class weatherApi
             $body = setm($body, 'days_rows', $tt);
         }
 
+        /******* конец БЛОК ПОГОДЫ ПО ДНЯМ *******/
+
+
         return $body;
     }
 
@@ -150,6 +170,9 @@ class weatherApi
         $params['head'][] = '<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">';
 
         /*Библиотека для построения часового графика*/
+
+        // TODO настроить отображение температуры и не отображать по пол часа на графике
+
         $params['head'][] = '<script src="https://www.gstatic.com/charts/loader.js"></script>';
         $params['head'][] = '<script>
             google.charts.load("current", {packages: ["corechart", "bar"]});
