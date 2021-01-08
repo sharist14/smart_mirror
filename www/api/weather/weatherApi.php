@@ -51,17 +51,8 @@ class weatherApi
         return $data;
     }
 
-
+    // TODO настроить размер шрифта для ПК и мобильной версии
     public function renderData($body){
-
-        // TODO поменять расположение блоков
-        // блок с иконкой в левом верхнем углу, под ним иемпература, а справа остальные блоки
-
-        // TODO сделать мобильную версию блоков
-
-
-        $icon = '<img src="http://openweathermap.org/img/wn/';
-
         
         /******* БЛОК ТЕКУЩЕЙ ПОГОДЫ *******/
 
@@ -73,24 +64,8 @@ class weatherApi
         $curr_icon = $icon.$this->wObj->current['curr_icon'].'@2x.png">';
         $body = set($body, 'weather_icon_img', $curr_icon);*/
 
-        // Проверяем не ночь ли сейчас (для отображения ночной иконки)
-        $night = false;
-        $curr_time = $this->wObj->current['curr_update_date'][1];
-        $curr_time = date('H', $curr_time);
-        if($curr_time >= 22 || $curr_time <= 5 ){
-            $night = true;
-        }
-
-        // TODO Нужно сделать так, чтобы после захода солнца, не показывало иконки где есть солнце
-        // функция time_day
-
-        // Получаем имя текущей иконки
-        if(!$night){
-            $cur_id = $this->wObj->current['curr_w_id'];
-            $icon_name = $this->getNameIcon($cur_id);
-        } else{
-            $icon_name = '000';
-        }
+        // Получаем видео иконку
+        $icon_name = getNameWeatherIcon($this->wObj->current);
 
         //Добавляем видео иконку
         $body = set($body, 'video_icon', 'sources/icon/'.$icon_name.'.mp4');
@@ -103,7 +78,7 @@ class weatherApi
             }
         }
 
-        /******* конец БЛОК ТЕКУЩЕЙ ПОГОДЫ *******/
+        /******* конец БЛОКА ТЕКУЩЕЙ ПОГОДЫ *******/
 
 
 
@@ -140,6 +115,7 @@ class weatherApi
             $tt = set($tt, 'date', $date);
             $tt = set($tt, 'temp',  tf($arr['day_temp']));
 
+            $icon = '<img src="http://openweathermap.org/img/wn/';
             $curr_icon = $icon . $arr['day_w_icon'] . '.png">';
             $tt = set($tt, 'icon', $curr_icon);
 
@@ -234,17 +210,5 @@ class weatherApi
     }
 
 
-    function getNameIcon($cur_id){
-        $icon_name = [
-            '200' => '2xx_2', '201' => '2xx_3','202' => '2xx_4','210' => '2xx_2','211' => '2xx_1','212' => '2xx_1','221' => '2xx_1','230' => '2xx_2','231' => '2xx_3','232' => '2xx_4',
-            '300' => '3xx','301' => '3xx','302' => '3xx','310' => '3xx','311' => '3xx','312' => '3xx','313' => '3xx','314' => '3xx','321' => '3xx',
-            '500' => '4xx_1','501' => '4xx_2','502' => '4xx_3','503' => '4xx_3','504' => '4xx_3','511' => '8xx_4','520' => '3xx','521' => '3xx','522' => '3xx','531' => '4xx_4',
-            '600' => '6xx_1','601' => '6xx_2','602' => '6xx_3','611' => '6xx_4','612' => '6xx_5','613' => '6xx_6','615' => '6xx_6','616' => '6xx_4','620' => '6xx_9','621' => '6xx_10','622' => '6xx_10',
-            '701' => '8xx_4','711' => '8xx_4','721' => '8xx_4','731' => '8xx_4','741' => '8xx_4','751' => '8xx_4','761' => '8xx_4','762' => '8xx_4','771' => '8xx_4','781' => '8xx_4',
-            '800' => '888',
-            '801' => '8xx_1','802' => '8xx_2','803' => '8xx_3','804' => '8xx_4',
-        ];
 
-        return $icon_name[$cur_id];
-    }
 }

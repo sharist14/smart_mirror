@@ -1,137 +1,125 @@
 .content{
+
+
     /*background-color: #0f0f10;*/
-    background-color: #000000;
-    color: white;
-    max-width: 100%;
+    /*max-width: 100%;*/
     /*width: 1000px;*/
     /*height: 1600px;*/
     /*padding: 15px;*/
-    margin: 0 auto;
+    /*margin: 0 auto;*/
+    color: white;
 }
 
 /*.line{*/
     /*border-bottom: 1px solid grey;*/
 /*}*/
 
-body{
-
-}
 
 
-/*---------- WEATHER BLOCK ----------*/
+/*-------------------- WEATHER BLOCK --------------------*/
 #weather{
-    max-width: 100%;
-    border: 1px dotted white;
-    padding: 15px;
-    font-family: 'Lato', sans-serif;
-    /*font-family: 'Work Sans', sans-serif;*/
-    /*font-family: 'Roboto', sans-serif;*/
-    background-color: #000000;
+    /*max-width: 100%;*/
+    /*border: 1px dotted white;*/
+    /*padding: 15px;*/
+    /*font-family: 'Lato', sans-serif;*/
+    /*!*font-family: 'Work Sans', sans-serif;*!*/
+    /*!*font-family: 'Roboto', sans-serif;*!*/
+    /*background-color: #000000;*/
+    /*font-size: 1.5vw; !* 1.5% of viewport width *!*/
+    font-size: 11px; /* 3% of viewport width */
+    /*height: 1080px;*/
+
+}
+
+.w_subtitle{
     font-size: 30px;
-    height: 1080px;
-
+    margin-top: 13px;
 }
 
-/*Выравниваем главный блок и параметры по центру*/
-.main div,
-.parameters div{
-    justify-content: center;
+.video_icon{
+    width: 350px;
+    height: 350px;
 }
 
-/*иконки одинаковой ширины*/
+
+/*!*Выравниваем главный блок и параметры по центру*!*/
+/*.main div,*/
+/*.parameters div{*/
+    /*justify-content: center;*/
+/*}*/
+
+/*!*иконки одинаковой ширины*!*/
 #weather i{
     display: inline-block;
-    width: 55px;
+    width: 40px;
     text-align: center;
 }
 
-#weather .w_param{
-    display: inline-block;
-    width: 190px;
-    text-align: start;
-}
+/*#weather .w_param{*/
+    /*display: inline-block;*/
+    /*width: 190px;*/
+    /*text-align: start;*/
+/*}*/
 
-#weather .w_val{
-    display: inline-block;
-    width: 160px;
-    text-align: start;
-}
-
-
-
-
-/*отступ подвала у главного блока*/
-#weather .main{
-   margin-bottom: 25px;
-}
-
-/*температура главного блока*/
-.curr_temp{
-    font-size: 80px;
-    font-weight: bold;
-}
-
-/*текст центральных блоков по правому краю*/
-.main .center_block div,
-.parameters .center_block div,
-.right_block .w_subtitle{
-    margin: 0 auto;
-    text-align: center;
-}
-
-/*текст правых блоков по правому краю*/
-.main .right_block div,
-.parameters .right_block div{
-    text-align: right;
-}
-
-
-#weather .w_subtitle{
-    display: inline-block;
-    font-size: 40px;
-    width: 280px;
-    text-align: left;
-}
-
-#weather .parameters .left_block .w_subtitle{
-    padding-left: 50px;
-}
-
-
-/* days_block */
-.days_block{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.days_block .col{
-    padding: 0;
-    border-left: 1px solid rgba(255,255,255,0.5);
-}
-
-.days_block .col:nth-child(1){
-    border-left:none;
-}
-
-.selected_day{
-    background-color: #1f1f1f;
-}
-/* end days_block */
-
-
-/*!*график погоды по часам*!*/
-/*#hour_chart_frame{*/
-    /*width:100%;*/
-    /*height:350px;*/
+/*#weather .w_val{*/
+    /*display: inline-block;*/
+    /*width: 160px;*/
+    /*text-align: start;*/
 /*}*/
 
 
 
-.chart_div,
-.days_block{
-    margin: 0 auto;
+
+/*!*отступ подвала у главного блока*!*/
+/*#weather .main{*/
+   /*margin-bottom: 25px;*/
+/*}*/
+
+/*!*температура главного блока*!*/
+/*.curr_temp{*/
+    /*font-size: 80px;*/
+    /*font-weight: bold;*/
+/*}*/
+
+/*!*текст центральных блоков по правому краю*!*/
+/*.main .center_block div,*/
+/*.parameters .center_block div,*/
+/*.right_block .w_subtitle{*/
+    /*margin: 0 auto;*/
+    /*text-align: center;*/
+/*}*/
+
+/*!*текст правых блоков по правому краю*!*/
+/*.main .right_block div,*/
+/*.parameters .right_block div{*/
+    /*text-align: right;*/
+/*}*/
+
+
+/*#weather .w_subtitle{*/
+    /*display: inline-block;*/
+    /*font-size: 40px;*/
+    /*width: 280px;*/
+    /*text-align: left;*/
+/*}*/
+
+/*#weather .parameters .left_block .w_subtitle{*/
+    /*padding-left: 50px;*/
+/*}*/
+
+
+
+/****** chart hours_block ******/
+#hour_chart_frame{
+    width:100%;
+    height:350px;
 }
+
+
+/*.chart_div,*/
+/*.days_block{*/
+/*margin: 0 auto;*/
+/*}*/
 
 .days_block div{
     text-align: center;
@@ -139,9 +127,40 @@ body{
 
 .hourly_block_title,
 .days_block_title{
-    margin-top: 85px;
+    margin-top: 15vh;
+}
+/****** end chart hours_block ******/
+
+
+
+/****** days_block ******/
+.days_block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
+.days_block .day_row{
+    padding: 0;
+    border-left: 1px solid rgba(255,255,255,0.5);
+}
+
+.days_block .day_row:nth-child(1){
+    border-left:none;
+}
+
+.selected_day{
+    background-color: #1f1f1f;
+}
+
+.days_block > div{
+    margin-bottom: 15px;
+}
+/****** end days_block ******/
 
 
-/*---------- END WEATHER BLOCK ----------*/
+
+
+
+
+/*-------------------- END WEATHER BLOCK --------------------*/

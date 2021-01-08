@@ -1,81 +1,93 @@
 #[body]#
-<div id="weather">
 
 
-    <div class="row justify-content-center">
+<div id="weather" class="row justify-content-center mt-3">
 
-        <!--Строка с температурой-->
-        <div class="main row col-12">
-            <div class="left_block col-4 d-flex flex-column">
+    <!--Строка с температурой-->
+    <div class="col-12 col-md-3 row justify-content-center">
+        <div class="row col-12 justify-content-center"><video class = "video_icon" preload="auto" autoplay="true" loop="true" muted="muted">
+            <source src="{video_icon}" type="video/mp4">
+        </video></div>
+        <div class="curr_temp text-center row col-12 justify-content-center">{curr_temp}</div>
+    </div>
+
+    <!--Строка с параметрами-->
+    <div class="col-12 col-md-9 row justify-content-around">
+        <div class="param1 col-md-6 col-xl-12 row">
+            <div class="col-xl-4 d-flex flex-column justify-content-md-around justify-content-xl-start">
                 <div><i class="wi wi-thermometer-exterior"></i> {curr_description}</div>
                 <div><i class="fal fa-head-side"></i> <span class="w_param">ощущается:</span> <span class="w_val">{curr_feels_like}</span>   </div>
                 <div><i class="wi wi-barometer"></i>  <span class="w_param">давление:</span>  <span class="w_val">{curr_pressure} гПа</span> </div>
             </div>
 
-            <div class="center_block col-4 d-flex flex-row align-items-center">
-                <video width="250" height="250" preload="auto" autoplay="true" loop="true" muted="muted">
-                    <source src="{video_icon}" type="video/mp4">
-                </video>
-                <div class="curr_temp">{curr_temp}</div>
-            </div>
-
-            <div class="right_block col-4 d-flex flex-column">
+            <div class="col-xl-4 d-flex flex-column justify-content-md-around justify-content-xl-start">
                 <div><i class="fas fa-binoculars"></i> <span class="w_param">видимость: </span> <span class="w_val">{curr_visibility} м.</span> </div>
                 <div><i class="wi wi-cloudy"></i>      <span class="w_param">облачность:</span> <span class="w_val"> {curr_clouds}%</span>      </div>
                 <div><i class="wi wi-humidity"></i>    <span class="w_param">влажность: </span> <span class="w_val">{curr_humidity}%</span>     </div>
+            </div>
+
+            <div class="col-xl-4 d-flex flex-column justify-content-md-around justify-content-xl-start">
                 <div><i class="wi wi-humidity"></i>    <span class="w_param">Осадки: </span> <span class="w_val"> мм.</span>     </div>
             </div>
         </div>
 
-        <!--Строка с параметрами-->
-        <div class="parameters row col-12 mt-4">
-            <div class="left_block col-4 d-flex flex-column">
+        <div class="param2 col-md-6 col-xl-12 row mt-xl-5">
+            <div class="col-xl-4 d-flex flex-column">
                 <div class="w_subtitle">Ветер</div>
                 <div><i class="wi wi-strong-wind"></i>                      <span class="w_param">скорость:</span>     <span class="w_val">{curr_wind_speed} км/ч</span> </div>
                 <div><i class="wi wi-wind towards-{curr_wind_deg}-deg"></i> <span class="w_param">направление:</span>  <span class="w_val"> {curr_wind_arrow}</span>     </div>
             </div>
 
-            <div class="center_block col-4 d-flex flex-column">
+            <div class="col-xl-4 d-flex flex-column">
                 <div class="w_subtitle">Солнце</div>
                 <div><i class="wi wi-sunrise"></i> <span class="w_param">рассвет</span> <span class="w_val"> {curr_sunrise}</span> </div>
                 <div><i class="wi wi-sunset"></i>  <span class="w_param">закат</span>   <span class="w_val"> {curr_sunset}</span>  </div>
             </div>
 
-            <div class="right_block col-4 d-flex flex-column">
-                <div class="w_subtitle text-center">Комфорт</div>
+            <div class="col-xl-4 d-flex flex-column">
+                <div class="w_subtitle">Комфорт</div>
                 <div><i class="fal fa-sunglasses"></i> <span class="w_param">УФ индекс:</span>  <span class="w_val">{curr_uvi} {desc_uvi}</span> </div>
                 <div><i class="fal fa-dewpoint"></i>   <span class="w_param">точка росы:</span> <span class="w_val">{curr_dew_point}</span>      </div>
             </div>
         </div>
-
-        <!-- Осадки поминутно на ближайший 1 час -->
-
-
-        <!-- Почасовой прогноз на ближайшие 48 часов -->
-        <div class="col-12 text-center hourly_block_title"><span class="h2"></span></div>
-        <div id="chart_div" style="width: 100%;" class="chart_div col-10"></div>
-
-
-        <!--Погода по дням-->
-        <div class="col-12 text-center days_block_title"><span class="h2"></span></div>
-        <div class="days_block mt-3 col-10">
-            {days_rows}
-        </div>
     </div>
+
+    <!-- Осадки поминутно на ближайший 1 час -->
+
+
+    <!-- Почасовой прогноз на ближайшие 48 часов -->
+    <div class="col-12 text-center hourly_block_title"><span class="h2"></span></div>
+    <div id="chart_div" class="chart_div col-10 justify-content-center"></div>
+
+
+    <!--Погода по дням-->
+    <div class="col-12 text-center days_block_title"><span class="h2"></span></div>
+    <div class="days_block row mt-3 col-12 d-flex flex-row justify-content-center">
+        {days_rows}
+    </div>
+
 
 
     <div class="small mt-5">Последнее обновление {curr_update_date}</div>
 
 </div>
+
+<script>
+    // $(document).ready(function(){
+    //     win_w = $(window).width();
+    //     win_h = $(window).height();
+    //
+    //     alert('ширина:'+win_w+' высота:'+win_h);
+    // });
+
+</script>
 #[!body]#
 
 #[day_row]#
-
-<div class="col {selected}">
+<div class="day_row {selected} col-3 col-md-1">
     <div>{day_of_weak}</div>
     <div>{date}</div>
-    <div>{icon}</div>
+    <div style="margin: 0 -50%;">{icon}</div>
     <div>{temp}</div>
 </div>
-
 #[!day_row]#

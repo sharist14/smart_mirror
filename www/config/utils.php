@@ -97,7 +97,7 @@ function pre($data){
             break;
     }
 
-    echo "<pre style='color: #060406;'><span style='color: #ff5100; font-weight: bold; font-size: 16px;'>" .$type_pr.'</span>';
+    echo "<pre style='color: #ffffff;'><span style='color: #ff5100; font-weight: bold; font-size: 16px;'>" .$type_pr.'</span>';
     print_r($print);
     echo "</pre>";
 
@@ -202,21 +202,6 @@ function ucfirst_utf8($str){
 
 
 
-// Определяем время суток
-function time_day(){
-
-    $cur_date = date('H:i:s');
-    if( ($cur_date > $this->wObj->sunrise) && ($cur_date < $this->wObj->sunset)){
-        $str = 'Сейчас светло';
-    } else{
-        $str = 'Сейчас темно';
-    }
-
-    return $str;
-}
-
-
-
 // Определяем день недели
 function day_of_week($num_day, $format){
     $title = [
@@ -252,4 +237,129 @@ function day_of_week($num_day, $format){
     ];
 
     return $title[$num_day][$format];
+}
+
+
+// Определяем иконку погоды
+// https://openweathermap.org/weather-conditions#How-to-get-icon-URL
+function getNameWeatherIcon($wather_arr){
+
+    $icon_arr = [
+        // group 2хх: Thunderstorm (Гроза)
+        '200' => ['default' => '2xx_3',     'sunny' => '2xx_2'],   // is_sunny
+        '201' => ['default' => '2xx_3',     'sunny' => ''],
+        '202' => ['default' => '2xx_4',     'sunny' => ''],
+        '210' => ['default' => '2xx_1',     'sunny' => '2xx_2'],   // is_sunny
+        '211' => ['default' => '2xx_1',     'sunny' => ''],
+        '212' => ['default' => '2xx_1',     'sunny' => ''],
+        '221' => ['default' => '2xx_1',     'sunny' => ''],
+        '230' => ['default' => '2xx_3',     'sunny' => '2xx_2'],   // is_sunny
+        '231' => ['default' => '2xx_3',     'sunny' => ''],
+        '232' => ['default' => '2xx_4',     'sunny' => ''],
+
+        // group 3хх: Drizzle (Морось)
+        '300' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '301' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '302' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '310' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '311' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '312' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '313' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '314' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '321' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+
+        // group 5хх: Rain (Дождь)
+        '500' => ['default' => '4xx_1',     'sunny' => ''],
+        '501' => ['default' => '4xx_2',     'sunny' => ''],
+        '502' => ['default' => '4xx_3',     'sunny' => ''],
+        '503' => ['default' => '4xx_3',     'sunny' => ''],
+        '504' => ['default' => '4xx_3',     'sunny' => ''],
+        '511' => ['default' => '8xx_4',     'sunny' => ''],
+        '520' => ['default' => '4xx_1',     'sunny' => '3xx'],   // is_sunny
+        '521' => ['default' => '4xx_2',     'sunny' => '3xx'],   // is_sunny
+        '522' => ['default' => '4xx_3',     'sunny' => '3xx'],   // is_sunny
+        '531' => ['default' => '4xx_4',     'sunny' => ''],
+
+        // group 6хх: Snow (Снег)
+        '600' => ['default' => '6xx_1',     'sunny' => ''],
+        '601' => ['default' => '6xx_2',     'sunny' => ''],
+        '602' => ['default' => '6xx_3',     'sunny' => ''],
+        '611' => ['default' => '6xx_4',     'sunny' => ''],
+        '612' => ['default' => '6xx_4',     'sunny' => '6xx_5'],   // is_sunny
+        '613' => ['default' => '6xx_6',     'sunny' => ''],
+        '615' => ['default' => '6xx_6',     'sunny' => ''],
+        '616' => ['default' => '6xx_4',     'sunny' => ''],
+        '620' => ['default' => '6xx_1',     'sunny' => '6xx_9'],   // is_sunny
+        '621' => ['default' => '6xx_2',     'sunny' => '6xx_10'],   // is_sunny
+        '622' => ['default' => '6xx_3',     'sunny' => '6xx_10'],   // is_sunny
+
+        // group 7хх: Atmosphere (Атмосфера)
+        '701' => ['default' => '8xx_4',     'sunny' => ''],
+        '711' => ['default' => '8xx_4',     'sunny' => ''],
+        '721' => ['default' => '8xx_4',     'sunny' => ''],
+        '731' => ['default' => '8xx_4',     'sunny' => ''],
+        '741' => ['default' => '8xx_4',     'sunny' => ''],
+        '751' => ['default' => '8xx_4',     'sunny' => ''],
+        '761' => ['default' => '8xx_4',     'sunny' => ''],
+        '762' => ['default' => '8xx_4',     'sunny' => ''],
+        '771' => ['default' => '8xx_4',     'sunny' => ''],
+        '781' => ['default' => '8xx_4',     'sunny' => ''],
+
+        // group 800: Clear (Ясно)
+        '800' => ['default' => '888',       'sunny' => ''],   // is_sunny
+
+        // group 80х: Clouds (Облачность)
+        '801' => ['default' => '8xx_4',     'sunny' => '8xx_1'],   // is_sunny
+        '802' => ['default' => '8xx_4',     'sunny' => '8xx_2'],   // is_sunny
+        '803' => ['default' => '8xx_4',     'sunny' => '8xx_3'],   // is_sunny
+        '804' => ['default' => '8xx_4',     'sunny' => ''],
+    ];
+
+
+    // Проверяем не ночь ли сейчас (для отображения ночной иконки)
+    $night = isNightTime();
+
+    // Проверяем есть ли солнечный свет
+    $sunlight = isSunLight($wather_arr['curr_sunrise'][0], $wather_arr['curr_sunset'][0]);
+
+    // Наличие большого количества облаков
+    $cloudly = ($wather_arr['curr_clouds'] > 25)? true : false;
+
+
+    // Determine icon
+    if(!$night){
+
+        // Иконка по умолчанию
+        $cur_id = $wather_arr['curr_w_id'];
+        $icon_name = $icon_arr[$cur_id]['default'];
+
+        // Если есть солнечный свет, малооблачно и есть солнечная иконка - то используем её
+        // if is sunlight and clouds < 25% and is sunny icon
+        if($sunlight && !$cloudly && $icon_arr[$cur_id]['sunny']){
+            $icon_name = $icon_arr[$cur_id]['sunny'];
+        }
+
+    } else{
+        $icon_name = '000';     // Иконка для ночного времени суток
+    }
+
+    return $icon_name;
+}
+
+
+
+// Проверка на время суток - ночь
+function isNightTime(){
+    $curr_time = date('H');
+
+    return ($curr_time >= 22 || $curr_time <= 5 )? true : false;
+}
+
+
+
+// Проверка на наличие солнечного света
+function isSunLight($sunrise, $sunset){
+    $time_now = date('H:i:s');
+
+    return ( ($time_now > $sunrise) && ($time_now < $sunset))? true : false;
 }

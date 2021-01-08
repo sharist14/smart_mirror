@@ -18,7 +18,23 @@
 
 /* Стили для очень больших экранов (ПК с большим монитором,
 дисплей 1200 пикселей и более) */
-@media (min-width: 1200px) {  }
+@media (min-width: 1200px) {
+    /*#weather{*/
+        /*font-size: 1.5em;*/
+    /*}*/
+}
+
+/* Стили для больше чем очень больших экранов (ПК с большим монитором,
+дисплей 1920 пикселей и более) */
+@media (min-width: 1920px) {
+    /*#weather{*/
+        /*font-size: 2.0em;*/
+    /*}*/
+
+    /*.parameters{*/
+        /*margin-top: 35px;*/
+    /*}*/
+}
 
 /* ------------------------------------------ */
 /*------ От больших экранов к маленьким ------*/
@@ -34,38 +50,48 @@
 /* Стили для средних экранов (дисплей максимум 991 пикселей) */
 @media (max-width: 991px) {
     #weather{
-        font-size: 3.5em;
+        /*font-size: 1.5em;*/
     }
 
-    #weather i{
-        width: 70px;
-    }
+    /*#weather i{*/
+        /*width: 70px;*/
+    /*}*/
 
-    .header h1{
-        font-size: 1.4em;
-        font-weight: bold;
-    }
+    /*.header h1{*/
+        /*font-size: 1.4em;*/
+        /*font-weight: bold;*/
+    /*}*/
 
-    .header h2{
-        font-size: 1.6em;
-    }
+    /*.header h2{*/
+        /*font-size: 1.6em;*/
+    /*}*/
 
-    .header .curr_temp{
-        font-size: 1.8em;
-    }
+    /*.header .curr_temp{*/
+        /*font-size: 1.8em;*/
+    /*}*/
 
-    .right_block{
-        margin-top: 1.5em;
-    }
+    /*.right_block{*/
+        /*margin-top: 1.5em;*/
+    /*}*/
 
-    #weather .main .left_block,
-    #weather .main .right_block {
-        justify-content: start;
-    }
+    /*#weather .main .left_block,*/
+    /*#weather .main .right_block {*/
+        /*justify-content: start;*/
+    /*}*/
 }
 
 /* Стили для маленьких экранов (дисплей максимум 767 пикселей) */
-@media (max-width: 767px) {  }
+@media (max-width: 767px) {
+    /*!*температура главного блока*!*/
+    .curr_temp{
+        font-size: 80px;
+        font-weight: bold;
+    }
+
+    #weather{
+        font-size: 17px;
+    }
+}
 
 /* Стили для очень маленьких экранов (дисплей максимум 575 пикселей) */
 @media (max-width: 575px) {  }
