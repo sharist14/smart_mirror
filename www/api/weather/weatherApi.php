@@ -12,6 +12,8 @@ class weatherApi
     public $city_coord = 'lat=59.89&lon=30.26';     // city coordinate (Saint-Petersburg)
     public $wObj;                                   // Obj with data from API
     public $hour_chart;                             // chart for hour forecast
+    public $openweather_icon = '<img src="http://openweathermap.org/img/wn/';
+    public $use_main_video_icon = true;
 
 
 
@@ -53,22 +55,30 @@ class weatherApi
 
     // TODO настроить размер шрифта для ПК и мобильной версии
     public function renderData($body){
-        
+
+
         /******* БЛОК ТЕКУЩЕЙ ПОГОДЫ *******/
 
+        // set dates
         foreach($this->wObj->current as $title => $value){
             $body = set($body, $title, $value );
         }
 
-        /*Иконка от weather api
-        $curr_icon = $icon.$this->wObj->current['curr_icon'].'@2x.png">';
-        $body = set($body, 'weather_icon_img', $curr_icon);*/
+        // use private video icon or public image icon
+        if($this->use_main_video_icon){
+            $icon_name = getNameWeatherIcon($this->wObj->current);
+            $body = set($body, 'weather_video_icon', 'sources/icon/'.$icon_name.'.mp4');
 
-        // Получаем видео иконку
-        $icon_name = getNameWeatherIcon($this->wObj->current);
+            $body = set($body, 'display_iblock', 'hidden');
+        } else{
 
-        //Добавляем видео иконку
-        $body = set($body, 'video_icon', 'sources/icon/'.$icon_name.'.mp4');
+            // Иконка от weather api
+            $curr_icon = $this->openweather_icon . $this->wObj->current['curr_icon'] . '@4x.png">';
+            $body = set($body, 'weather_img_icon', $curr_icon);
+
+            $body = set($body, 'display_vblock', 'hidden');
+        }
+
 
         // TODO вывести количество осадков (берем данные за ближайшие 15 минут и выводим в виде капелек)
         // Если есть осадки
@@ -115,8 +125,7 @@ class weatherApi
             $tt = set($tt, 'date', $date);
             $tt = set($tt, 'temp',  tf($arr['day_temp']));
 
-            $icon = '<img src="http://openweathermap.org/img/wn/';
-            $curr_icon = $icon . $arr['day_w_icon'] . '.png">';
+            $curr_icon = $this->openweather_icon . $arr['day_w_icon'] . '.png">';
             $tt = set($tt, 'icon', $curr_icon);
 
             // Выделяем сб и вс

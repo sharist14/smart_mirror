@@ -10,6 +10,9 @@
     color: white;
 }
 
+.hidden{
+    display: none;
+}
 /*.line{*/
     /*border-bottom: 1px solid grey;*/
 /*}*/
@@ -27,8 +30,6 @@
     /*background-color: #000000;*/
     /*font-size: 1.5vw; !* 1.5% of viewport width *!*/
     font-size: 11px; /* 3% of viewport width */
-    /*height: 1080px;*/
-
 }
 
 .w_subtitle{
@@ -36,17 +37,12 @@
     margin-top: 13px;
 }
 
-.video_icon{
+.video_icon,
+.image_icon img{
     width: 350px;
     height: 350px;
 }
 
-
-/*!*Выравниваем главный блок и параметры по центру*!*/
-/*.main div,*/
-/*.parameters div{*/
-    /*justify-content: center;*/
-/*}*/
 
 /*!*иконки одинаковой ширины*!*/
 #weather i{
@@ -54,59 +50,6 @@
     width: 40px;
     text-align: center;
 }
-
-/*#weather .w_param{*/
-    /*display: inline-block;*/
-    /*width: 190px;*/
-    /*text-align: start;*/
-/*}*/
-
-/*#weather .w_val{*/
-    /*display: inline-block;*/
-    /*width: 160px;*/
-    /*text-align: start;*/
-/*}*/
-
-
-
-
-/*!*отступ подвала у главного блока*!*/
-/*#weather .main{*/
-   /*margin-bottom: 25px;*/
-/*}*/
-
-/*!*температура главного блока*!*/
-/*.curr_temp{*/
-    /*font-size: 80px;*/
-    /*font-weight: bold;*/
-/*}*/
-
-/*!*текст центральных блоков по правому краю*!*/
-/*.main .center_block div,*/
-/*.parameters .center_block div,*/
-/*.right_block .w_subtitle{*/
-    /*margin: 0 auto;*/
-    /*text-align: center;*/
-/*}*/
-
-/*!*текст правых блоков по правому краю*!*/
-/*.main .right_block div,*/
-/*.parameters .right_block div{*/
-    /*text-align: right;*/
-/*}*/
-
-
-/*#weather .w_subtitle{*/
-    /*display: inline-block;*/
-    /*font-size: 40px;*/
-    /*width: 280px;*/
-    /*text-align: left;*/
-/*}*/
-
-/*#weather .parameters .left_block .w_subtitle{*/
-    /*padding-left: 50px;*/
-/*}*/
-
 
 
 /****** chart hours_block ******/

@@ -5,9 +5,15 @@
 
     <!--Строка с температурой-->
     <div class="col-12 col-md-3 row justify-content-center">
-        <div class="row col-12 justify-content-center"><video class = "video_icon" preload="auto" autoplay="true" loop="true" muted="muted">
-            <source src="{video_icon}" type="video/mp4">
-        </video></div>
+        <div class="row col-12 justify-content-center">
+            <!--video icon-->
+            <video class = "video_icon {display_vblock}" preload="auto" autoplay="true" loop="true" muted="muted">
+                <source src="{weather_video_icon}" type="video/mp4">
+            </video>
+
+            <!--image icon-->
+            <div class = "image_icon {display_iblock}">{weather_img_icon}</div>
+        </div>
         <div class="curr_temp text-center row col-12 justify-content-center">{curr_temp}</div>
     </div>
 
