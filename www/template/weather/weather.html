@@ -33,14 +33,16 @@
             </div>
 
             <div class="col-xl-4 d-flex flex-column justify-content-md-around justify-content-xl-start">
-                <div><i class="wi wi-humidity"></i>    <span class="w_param">Осадки: </span> <span class="w_val"> мм.</span>     </div>
+                <div><i class="wi wi-umbrella"></i>    <span class="w_param">Интенсивность осадков: </span> <span class="w_val intensity"> {intensity}</span>     </div>
+                {intensity_rows}
             </div>
         </div>
 
         <div class="param2 col-md-6 col-xl-12 row mt-xl-5">
             <div class="col-xl-4 d-flex flex-column">
                 <div class="w_subtitle">Ветер</div>
-                <div><i class="wi wi-strong-wind"></i>                      <span class="w_param">скорость:</span>     <span class="w_val">{curr_wind_speed} км/ч</span> </div>
+                <div><i class="wi wi-strong-wind"></i>                      <span class="w_param">скорость:</span>     <span class="w_val">{curr_wind_speed} м/с</span> </div>
+                <div><i class="wi wi-small-craft-advisory"></i>                      <span class="w_param">интенсивность:</span>     <span class="w_val">{curr_wind_char} </span> </div>
                 <div><i class="wi wi-wind towards-{curr_wind_deg}-deg"></i> <span class="w_param">направление:</span>  <span class="w_val"> {curr_wind_arrow}</span>     </div>
             </div>
 

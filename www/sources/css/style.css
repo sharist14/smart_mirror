@@ -52,6 +52,23 @@
 }
 
 
+#weather .intensity_row{
+    margin-left: 45px;
+}
+
+#weather .intensity_row .w_val{
+    padding-left: 15px;
+}
+
+#weather .intensity_row .rain_ico{
+    width: 15px;
+}
+
+#weather .intensity_row .snow_ico{
+    width: 18px;
+}
+
+
 /****** chart hours_block ******/
 #hour_chart_frame{
     width:100%;

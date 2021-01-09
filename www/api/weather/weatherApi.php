@@ -62,6 +62,12 @@ class weatherApi
         // set dates
         foreach($this->wObj->current as $title => $value){
             $body = set($body, $title, $value );
+
+            // power wind
+            if($title == 'curr_wind_speed'){
+                $wind_power = powerWind($value);
+                $body = set($body, 'curr_wind_char', $wind_power );
+            }
         }
 
         // use private video icon or public image icon
@@ -80,12 +86,39 @@ class weatherApi
         }
 
 
-        // TODO вывести количество осадков (берем данные за ближайшие 15 минут и выводим в виде капелек)
-        // Если есть осадки
+        // Если есть осадки (таблица интенсивности осадков https://meteoinfo.ru/forcabout/3891-nast-kpp)
         if( max($this->wObj->rain) > 0 ){
+            $period_minutes = 0;
+            $weather_id = $this->wObj->current['curr_w_id'];
+
+            // передаем в powerRainSnow() тип осадков и значение и получаем в виде капелек или снежинок
             foreach($this->wObj->rain as $datetime => $precipitation){
-                pre( df($datetime, 'st') .' - '. $precipitation . ' мм.' );
+
+                switch($period_minutes){
+                    case '5':
+                        $display_icon = powerRainSnow($weather_id, $precipitation);
+
+                        $div = '<div class="intensity_row"><span class="w_param">05 мин: </span> <span class="w_val">' . $display_icon . '</span></div>';
+                        $body = setm($body, 'intensity_rows', $div);
+                        break;
+                    case '30':
+                        $display_icon = powerRainSnow($weather_id, $precipitation);
+
+                        $div = '<div class="intensity_row"><span class="w_param">30 мин: </span> <span class="w_val">' . $display_icon . '</span></div>';
+                        $body = setm($body, 'intensity_rows', $div);
+                        break;
+                    case '60':
+                        $display_icon = powerRainSnow($weather_id, $precipitation);
+
+                        $div = '<div class="intensity_row"><span class="w_param">60 мин: </span> <span class="w_val">' . $display_icon . '</span></div>';
+                        $body = setm($body, 'intensity_rows', $div);
+                        break;
+                }
+
+                $period_minutes++;
             }
+        } else{
+            $body = set($body, 'intensity', '---');
         }
 
         /******* конец БЛОКА ТЕКУЩЕЙ ПОГОДЫ *******/
@@ -156,7 +189,7 @@ class weatherApi
 
         /*Библиотека для построения часового графика*/
 
-        // TODO настроить отображение температуры и не отображать по пол часа на графике
+        // TODO почасовой график отображение температуры и не отображать по пол часа на графике
 
         $params['head'][] = '<script src="https://www.gstatic.com/charts/loader.js"></script>';
         $params['head'][] = '<script>

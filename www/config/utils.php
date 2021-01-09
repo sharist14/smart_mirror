@@ -363,3 +363,118 @@ function isSunLight($sunrise, $sunset){
 
     return ( ($time_now > $sunrise) && ($time_now < $sunset))? true : false;
 }
+
+
+//Качественная характеристика скорости ветра
+//Диапазон скорости ветра, м/с
+//
+//Слабый      0-5
+//Умеренный   6-14
+//Сильный     15-24
+//Очень сильный 25-32
+//Ураганный 33 и более
+function powerWind($speed){
+    switch($speed){
+        case ($speed < 6):
+            $power = 'cлабый';
+            break;
+        case ($speed < 15):
+            $power = 'умеренный';
+            break;
+        case ($speed < 25):
+            $power = 'сильный';
+            break;
+        case ($speed < 33):
+            $power = 'очень сильный';
+            break;
+        case ($speed):
+            $power = 'ураганный';
+            break;
+    }
+
+    return $power;
+}
+
+
+
+//Кол-во осадков дождя, мм/12 час
+//
+//Без осадков, сухая погода - 0 мм.
+//Небольшой дождь, слабый дождь, морось, моросящие осадки, небольшие осадки - 0-2 мм.
+//Дождь, дождливая погода, осадки, мокрый снег, дождь со снегом; снег, переходящий в дождь; дождь, переходящий в снег 3-14 мм.
+//Сильный дождь, ливневый дождь (ливень), сильные осадки, сильный мокрый снег, сильный дождь со снегом, сильный снег с дождем 15-49 мм.
+//Очень сильный дождь, очень сильные осадки (очень сильный мокрый снег, очень сильный дождь со снегом, очень сильный снег с дождем) ≥ 50  мм.
+//
+//
+//
+//Кол-во осадков снега, мм/12 час
+//
+//Без осадков, сухая погода -  0 мм.
+//Небольшой снег, слабый снег 0-1 мм.
+//Снег, снегопад 2-5 мм.
+//Сильный снег, сильный снегопад 6-19 мм.
+//Очень сильный снег, очень сильный снегопад ≥ 20
+function powerRainSnow($weather_id, $precipitation){
+
+    // по умолчанию количество осадков приходит в размере мм/мин
+    // переводим в мм/12 ч
+    $precipitation = $precipitation * 60 * 12;
+
+    //$icon_n = '<i class="fas fa-ban"></i>';                // old none icon
+    $icon_n = '<span class="none-dash">---</span>';          // none
+    $icon_r = '<i class="rain_ico fas fa-tint"></i>';        // rain
+    $icon_s = '<i class="snow_ico fas fa-snowflake"></i>';   // snow
+
+    // determine type precipitation
+    switch($weather_id){
+
+        // SNOW
+        case '600':   // light snow (небольшой снегопад)
+        case '601':   // Snow (снегопад)
+        case '602':   // Heavy snow (сильный снегопад)
+        case '620':   // Light shower snow (кратковременный небольшой снегопад)
+        case '621':   // Shower snow (кратковременный снегопад)
+        case '622':   // Heavy shower snow (кратковременный сильный снегопад)
+
+            if($precipitation == 0){              // Без осадков
+                $icon_block = $icon_n;
+
+            } elseif( $precipitation <= 1 ){      // Небольшой снег, слабый снег
+                $icon_block = $icon_s;
+
+            } elseif( $precipitation <= 5 ){      // Снег, снегопад
+                $icon_block = $icon_s.$icon_s;
+
+            } elseif( $precipitation <= 19 ){     // Сильный снег, сильный снегопад
+                $icon_block = $icon_s.$icon_s.$icon_s;
+
+            } elseif( $precipitation >= 50 ){     // Очень сильный снег, очень сильный снегопад
+                $icon_block = $icon_s.$icon_s.$icon_s.$icon_s;
+
+            }
+            break;
+
+        // RAIN
+        default :   // Snow (снег)
+            if($precipitation == 0){              // Без осадков
+                $icon_block = $icon_n;
+
+            } elseif( $precipitation <= 2 ){      // Небольшой дождь, слабый дождь, морось, моросящие осадки, небольшие осадки
+                $icon_block = $icon_r;
+
+            } elseif( $precipitation <= 14 ){     // Дождь, дождливая погода, осадки, мокрый снег, дождь со снегом; снег, переходящий в дождь; дождь, переходящий в снег
+                $icon_block = $icon_r.$icon_r;
+
+            } elseif( $precipitation <= 49 ){     // Сильный дождь, ливневый дождь (ливень), сильные осадки, сильный мокрый снег, сильный дождь со снегом, сильный снег с дождем
+                $icon_block = $icon_r.$icon_r.$icon_r;
+
+            } elseif( $precipitation >= 50 ){     // Очень сильный дождь, очень сильные осадки (очень сильный мокрый снег, очень сильный дождь со снегом, очень сильный снег с дождем)
+                $icon_block = $icon_r.$icon_r.$icon_r.$icon_r;
+            }
+
+            break;
+    }
+
+
+    return $icon_block;
+}
